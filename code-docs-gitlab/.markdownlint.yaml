@@ -1,0 +1,7 @@
+default: true
+MD013: false  # line length — impractical for tables
+MD033: false  # inline HTML allowed
+MD041: false  # first line not required to be H1 (YAML frontmatter precedes content)
+MD036: false  # emphasis used as heading (bold used in table rows and ADR fields)
+MD040: false  # fenced code blocks language — CCFM :::expand syntax may trigger this
+MD031: false  # fenced blocks around lists — same reason as MD040

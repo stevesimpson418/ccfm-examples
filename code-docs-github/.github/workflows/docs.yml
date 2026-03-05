@@ -1,0 +1,61 @@
+name: Docs — Plan & Deploy
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+
+jobs:
+  plan:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Plan docs changes
+        uses: stevesimpson418/ccfm-convert@v0.1.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ENG
+          directory: docs
+          state: .ccfm-state.json
+          plan: true
+        # Exit code 2 (pending changes) is treated as a failure — this is intentional.
+        # All documentation changes must be reviewed before merging.
+
+  deploy:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Deploy docs to Confluence
+        uses: stevesimpson418/ccfm-convert@v0.1.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ENG
+          directory: docs
+          state: .ccfm-state.json
+          archive-orphans: true
+          git-repo-url: https://github.com/${{ github.repository }}/blob/main
+
+      - name: Commit updated state file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .ccfm-state.json
+          git diff --staged --quiet || git commit -m "chore: update ccfm state [skip ci]"
+          git push
