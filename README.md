@@ -1,2 +1,2 @@
-# ccfm-example
+# ccfm-examples
 Example repository for the CCFM Project
