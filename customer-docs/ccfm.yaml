@@ -1,0 +1,9 @@
+version: 1
+
+domain: ${CONFLUENCE_DOMAIN}
+email: ${CONFLUENCE_EMAIL}
+token: ${CONFLUENCE_TOKEN}
+space: NEXUS
+docs_root: docs
+git_repo_url: https://github.com/nexus-platform/docs
+state_file: .ccfm-state.json

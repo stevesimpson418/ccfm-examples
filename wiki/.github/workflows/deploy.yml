@@ -1,0 +1,39 @@
+name: Deploy Wiki to Confluence
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Deploy docs to Confluence
+        uses: stevesimpson418/ccfm-convert@v0.1.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: WIKI
+          directory: docs
+          state: .ccfm-state.json
+          changed-only: true
+          archive-orphans: true
+          git-repo-url: https://github.com/${{ github.repository }}/blob/main
+
+      - name: Commit updated state file
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .ccfm-state.json
+          git diff --staged --quiet || git commit -m "chore: update ccfm state [skip ci]"
+          git push

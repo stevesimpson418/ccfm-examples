@@ -1,0 +1,31 @@
+name: Plan Docs (PR Check)
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ccfm-convert
+        run: pip install ccfm-convert
+
+      - name: Run plan
+        env:
+          CONFLUENCE_DOMAIN: ${{ secrets.CONFLUENCE_DOMAIN }}
+          CONFLUENCE_EMAIL: ${{ secrets.CONFLUENCE_EMAIL }}
+          CONFLUENCE_TOKEN: ${{ secrets.CONFLUENCE_TOKEN }}
+        run: |
+          ccfm --config ccfm.yaml --directory docs --plan || true
+        # Exit code 2 means pending changes — informational only, not a blocking failure.
+        # Remove "|| true" if you want this check to block merges when docs are out of sync.
