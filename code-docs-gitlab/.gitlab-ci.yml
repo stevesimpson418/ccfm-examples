@@ -1,0 +1,144 @@
+stages:
+  - lint
+  - plan
+  - deploy
+  - update-state
+
+# ---------------------------------------------------------------------------
+# lint:markdown
+# Runs on MRs and pushes to the default branch when docs change.
+# A lint failure blocks the MR pipeline.
+# ---------------------------------------------------------------------------
+lint:markdown:
+  stage: lint
+  image: node:20-alpine
+  before_script:
+    - npm install -g markdownlint-cli2
+  script:
+    - markdownlint-cli2 "docs/**/*.md"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - docs/**/*
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs/**/*
+
+# ---------------------------------------------------------------------------
+# plan:confluence
+# Runs on MRs only. Uses the ccfm-convert Docker image directly — no pip
+# install needed; the job executes inside the container.
+# Exit code 2 from ccfm (pending changes) fails the MR pipeline, requiring
+# the team to consciously review doc impact before merging.
+# ---------------------------------------------------------------------------
+plan:confluence:
+  stage: plan
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  needs:
+    - lint:markdown
+  script:
+    - ccfm --config ccfm.yaml --directory docs --plan
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - docs/**/*
+
+# ---------------------------------------------------------------------------
+# deploy:staging
+# Runs automatically on push to the default branch when docs change.
+# CONFLUENCE_SPACE is scoped to ENG-STAGE for the staging environment
+# in GitLab CI/CD Variables settings.
+# State file is exported as an artifact for the update-state job.
+# ---------------------------------------------------------------------------
+deploy:staging:
+  stage: deploy
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  needs:
+    - lint:markdown
+  environment:
+    name: staging
+    url: https://${CONFLUENCE_DOMAIN}/wiki/spaces/${CONFLUENCE_SPACE}
+  artifacts:
+    paths:
+      - .ccfm-state.staging.json
+    expire_in: 1 hour
+  script:
+    - ccfm --config ccfm.yaml --directory docs --state .ccfm-state.staging.json --changed-only --archive-orphans
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs/**/*
+
+# ---------------------------------------------------------------------------
+# update-state:staging
+# Commits the updated staging state file back to the repository.
+# Uses alpine/git so git is available (ccfm-convert image has no git).
+# The artifact from deploy:staging is downloaded automatically by GitLab.
+# [skip ci] in the commit message prevents a recursive pipeline trigger.
+# ---------------------------------------------------------------------------
+update-state:staging:
+  stage: update-state
+  image: alpine/git:latest
+  needs:
+    - job: deploy:staging
+      artifacts: true
+  script:
+    - git config user.email "ci@gitlab.com"
+    - git config user.name "GitLab CI"
+    - git remote set-url origin "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+    - git add .ccfm-state.staging.json
+    - git diff --staged --quiet || git commit -m "chore: update staging ccfm state [skip ci]"
+    - git push origin HEAD:${CI_COMMIT_REF_NAME}
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs/**/*
+
+# ---------------------------------------------------------------------------
+# deploy:production
+# Manual trigger — appears as a playable button in the GitLab pipeline UI
+# after the staging deploy succeeds. Trigger when confident staging is good.
+# CONFLUENCE_SPACE is scoped to ENG for the production environment
+# in GitLab CI/CD Variables settings.
+# ---------------------------------------------------------------------------
+deploy:production:
+  stage: deploy
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  when: manual
+  environment:
+    name: production
+    url: https://${CONFLUENCE_DOMAIN}/wiki/spaces/${CONFLUENCE_SPACE}
+  artifacts:
+    paths:
+      - .ccfm-state.production.json
+    expire_in: 1 hour
+  script:
+    - ccfm --config ccfm.yaml --directory docs --state .ccfm-state.production.json --changed-only --archive-orphans
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs/**/*
+
+# ---------------------------------------------------------------------------
+# update-state:production
+# Same pattern as update-state:staging but for the production state file.
+# Runs automatically after a successful manual production deploy.
+# ---------------------------------------------------------------------------
+update-state:production:
+  stage: update-state
+  image: alpine/git:latest
+  needs:
+    - job: deploy:production
+      artifacts: true
+  when: on_success
+  script:
+    - git config user.email "ci@gitlab.com"
+    - git config user.name "GitLab CI"
+    - git remote set-url origin "https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+    - git add .ccfm-state.production.json
+    - git diff --staged --quiet || git commit -m "chore: update production ccfm state [skip ci]"
+    - git push origin HEAD:${CI_COMMIT_REF_NAME}
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs/**/*

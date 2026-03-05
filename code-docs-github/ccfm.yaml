@@ -1,0 +1,9 @@
+version: 1
+
+domain: ${CONFLUENCE_DOMAIN}
+email: ${CONFLUENCE_EMAIL}
+token: ${CONFLUENCE_TOKEN}
+space: ENG
+docs_root: docs
+git_repo_url: https://github.com/acme-corp/order-service
+state_file: .ccfm-state.json
