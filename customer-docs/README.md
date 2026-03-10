@@ -8,7 +8,7 @@ a full deploy runs on merge using Docker — no Python required in the deploy en
 
 ## What this demonstrates
 
-- `--plan` as a PR check (exit code 2 = pending changes, informational)
+- `--plan` as an informational PR check (exits 0 by default since v0.2.0)
 - Docker-based deployment (zero Python dependency in CI)
 - PyPI-based plan step (`pip install ccfm-convert` in a lightweight check job)
 - Smart page links between docs sections
@@ -41,18 +41,16 @@ ccfm --directory docs           # deploy
 # With Docker
 docker run --rm \
   -v $(pwd)/docs:/docs \
-  -v $(pwd)/.ccfm-state.json:/.ccfm-state.json \
   ghcr.io/stevesimpson418/ccfm-convert:latest \
     --domain nexus.atlassian.net \
     --email you@nexus.com \
     --token $CONFLUENCE_TOKEN \
     --space NEXUS \
-    --directory /docs \
-    --state /.ccfm-state.json
+    --directory /docs
 ```
 
 ## How the CI pipeline works
 
-- **On pull request**: `plan.yml` runs `ccfm --plan` (PyPI install). Exit code 2 means
+- **On pull request**: `plan.yml` runs `ccfm --plan` (PyPI install). Shows what
   documentation changes are pending — visible as an informational check on the PR.
 - **On merge to main**: `deploy.yml` runs a full deploy via Docker with `--changed-only`.

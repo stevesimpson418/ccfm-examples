@@ -19,21 +19,11 @@ jobs:
           docker run --rm \
             -e CONFLUENCE_TOKEN=${{ secrets.CONFLUENCE_TOKEN }} \
             -v ${{ github.workspace }}/docs:/docs \
-            -v ${{ github.workspace }}/.ccfm-state.json:/.ccfm-state.json \
             ghcr.io/stevesimpson418/ccfm-convert:latest \
               --domain "${{ secrets.CONFLUENCE_DOMAIN }}" \
               --email "${{ secrets.CONFLUENCE_EMAIL }}" \
               --token "$CONFLUENCE_TOKEN" \
               --space NEXUS \
               --directory /docs \
-              --state /.ccfm-state.json \
               --changed-only \
               --git-repo-url "https://github.com/${{ github.repository }}/blob/main"
-
-      - name: Commit updated state file
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .ccfm-state.json
-          git diff --staged --quiet || git commit -m "chore: update ccfm state [skip ci]"
-          git push

@@ -1,6 +1,6 @@
 # Example: Company Wiki
 
-> **Integration method**: GitHub Action (`uses: stevesimpson418/ccfm-convert@v0.1.0`)
+> **Integration method**: GitHub Action (`uses: stevesimpson418/ccfm-convert@v0.3.0`)
 
 A fictional company "Acme Corp" maintains their entire internal wiki in Git.
 Engineers write Markdown, CI deploys to Confluence automatically on every merge to `main`.
