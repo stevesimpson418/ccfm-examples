@@ -1,0 +1,124 @@
+stages:
+  - lint
+  - plan
+  - deploy
+
+# ---------------------------------------------------------------------------
+# .ccfm-init
+# Idempotent setup of ccfm management pages (v0.3.0+).
+# All plan and deploy jobs inherit this via `extends`.
+# ---------------------------------------------------------------------------
+.ccfm-init:
+  before_script:
+    - ccfm --config ccfm.yaml init
+
+# ---------------------------------------------------------------------------
+# lint:markdown
+# Runs on MRs and pushes to the default branch when docs change.
+# A lint failure blocks the MR pipeline.
+# ---------------------------------------------------------------------------
+lint:markdown:
+  stage: lint
+  image: node:20-alpine
+  before_script:
+    - npm install -g markdownlint-cli2
+  script:
+    - markdownlint-cli2 "docs/**/*.md"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - docs/**/*
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs/**/*
+
+# ---------------------------------------------------------------------------
+# plan:staging
+# Runs on MRs only. Uses `action: prepare` to resolve environment-scoped
+# variables (CONFLUENCE_SPACE) without creating a deployment record.
+# Since v0.2.0, --plan exits 0 by default — this check is informational.
+# ---------------------------------------------------------------------------
+plan:staging:
+  stage: plan
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  extends: .ccfm-init
+  needs:
+    - lint:markdown
+  environment:
+    name: Staging
+    action: prepare
+  script:
+    - ccfm --config ccfm.yaml deploy --directory docs --plan
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - docs/**/*
+
+# ---------------------------------------------------------------------------
+# plan:production
+# Same as plan:staging but resolves Production environment variables.
+# Gives reviewers visibility into production impact during MR review.
+# ---------------------------------------------------------------------------
+plan:production:
+  stage: plan
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  extends: .ccfm-init
+  needs:
+    - lint:markdown
+  environment:
+    name: Production
+    action: prepare
+  script:
+    - ccfm --config ccfm.yaml deploy --directory docs --plan
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - docs/**/*
+
+# ---------------------------------------------------------------------------
+# deploy:staging
+# Runs automatically on push to the default branch when docs change.
+# CONFLUENCE_SPACE is scoped to ENG-STAGE for the Staging environment
+# in GitLab CI/CD Variables settings.
+# State is managed remotely in Confluence (v0.3.0+) — no local state files
+# or artifact handoff needed.
+# ---------------------------------------------------------------------------
+deploy:staging:
+  stage: deploy
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  extends: .ccfm-init
+  needs:
+    - lint:markdown
+  environment:
+    name: Staging
+    url: https://${CONFLUENCE_DOMAIN}/wiki/spaces/${CONFLUENCE_SPACE}
+  script:
+    - ccfm --config ccfm.yaml deploy --directory docs --changed-only --archive-orphans
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs/**/*
+
+# ---------------------------------------------------------------------------
+# deploy:production
+# Manual trigger — appears as a playable button in the GitLab pipeline UI.
+# CONFLUENCE_SPACE is scoped to ENG for the Production environment
+# in GitLab CI/CD Variables settings.
+#
+# To enforce a staging-first gate, uncomment the needs line below:
+#   needs: ["deploy:staging"]
+# ---------------------------------------------------------------------------
+deploy:production:
+  stage: deploy
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  extends: .ccfm-init
+  when: manual
+  environment:
+    name: Production
+    url: https://${CONFLUENCE_DOMAIN}/wiki/spaces/${CONFLUENCE_SPACE}
+  script:
+    - ccfm --config ccfm.yaml deploy --directory docs --changed-only --archive-orphans
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs/**/*

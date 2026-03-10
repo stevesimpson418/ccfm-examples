@@ -1,0 +1,92 @@
+stages:
+  - lint
+  - plan
+  - deploy
+
+.ccfm-init:
+  before_script:
+    - ccfm --config $CCFM_CONFIG init
+
+lint:markdown:
+  stage: lint
+  image: node:20-alpine
+  before_script:
+    - npm install -g markdownlint-cli2
+  script:
+    - markdownlint-cli2 "docs/**/*.md"
+    - markdownlint-cli2 "docs-wiki/**/*.md"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - docs/**/*
+        - docs-wiki/**/*
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs/**/*
+        - docs-wiki/**/*
+
+# ---------------------------------------------------------------------------
+# API docs — deploy to ENG space
+# ---------------------------------------------------------------------------
+plan:api-docs:
+  stage: plan
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  extends: .ccfm-init
+  variables:
+    CCFM_CONFIG: ccfm-api.yaml
+  needs:
+    - lint:markdown
+  script:
+    - ccfm --config ccfm-api.yaml deploy --directory docs --plan
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - docs/**/*
+
+deploy:api-docs:
+  stage: deploy
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  extends: .ccfm-init
+  variables:
+    CCFM_CONFIG: ccfm-api.yaml
+  needs:
+    - lint:markdown
+  script:
+    - ccfm --config ccfm-api.yaml deploy --directory docs --changed-only --archive-orphans
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs/**/*
+
+# ---------------------------------------------------------------------------
+# Wiki docs — deploy to WIKI space
+# ---------------------------------------------------------------------------
+plan:wiki-docs:
+  stage: plan
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  extends: .ccfm-init
+  variables:
+    CCFM_CONFIG: ccfm-wiki.yaml
+  needs:
+    - lint:markdown
+  script:
+    - ccfm --config ccfm-wiki.yaml deploy --directory docs-wiki --plan
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - docs-wiki/**/*
+
+deploy:wiki-docs:
+  stage: deploy
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  extends: .ccfm-init
+  variables:
+    CCFM_CONFIG: ccfm-wiki.yaml
+  needs:
+    - lint:markdown
+  script:
+    - ccfm --config ccfm-wiki.yaml deploy --directory docs-wiki --changed-only --archive-orphans
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs-wiki/**/*
