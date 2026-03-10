@@ -19,17 +19,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Plan docs changes
-        uses: stevesimpson418/ccfm-convert@v0.1.0
+        uses: stevesimpson418/ccfm-convert@v0.3.0
         with:
           domain: ${{ secrets.CONFLUENCE_DOMAIN }}
           email: ${{ secrets.CONFLUENCE_EMAIL }}
           token: ${{ secrets.CONFLUENCE_TOKEN }}
           space: ENG
           directory: docs
-          state: .ccfm-state.json
-          plan: true
-        # Exit code 2 (pending changes) is treated as a failure — this is intentional.
-        # All documentation changes must be reviewed before merging.
+          version: "0.3.0"
+          args: "--plan"
+        # Since v0.2.0, --plan exits 0 by default — this check is informational.
 
   deploy:
     if: github.event_name == 'push'
@@ -37,25 +36,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Deploy docs to Confluence
-        uses: stevesimpson418/ccfm-convert@v0.1.0
+        uses: stevesimpson418/ccfm-convert@v0.3.0
         with:
           domain: ${{ secrets.CONFLUENCE_DOMAIN }}
           email: ${{ secrets.CONFLUENCE_EMAIL }}
           token: ${{ secrets.CONFLUENCE_TOKEN }}
           space: ENG
           directory: docs
-          state: .ccfm-state.json
-          archive-orphans: true
-          git-repo-url: https://github.com/${{ github.repository }}/blob/main
-
-      - name: Commit updated state file
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .ccfm-state.json
-          git diff --staged --quiet || git commit -m "chore: update ccfm state [skip ci]"
-          git push
+          version: "0.3.0"
+          args: "--archive-orphans --git-repo-url https://github.com/${{ github.repository }}/blob/main"

@@ -18,7 +18,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install ccfm-convert
-        run: pip install ccfm-convert
+        run: pip install "ccfm-convert>=0.3.0"
 
       - name: Run plan
         env:
@@ -27,5 +27,5 @@ jobs:
           CONFLUENCE_TOKEN: ${{ secrets.CONFLUENCE_TOKEN }}
         run: |
           ccfm --config ccfm.yaml --directory docs --plan || true
-        # Exit code 2 means pending changes — informational only, not a blocking failure.
-        # Remove "|| true" if you want this check to block merges when docs are out of sync.
+        # Since v0.2.0, --plan exits 0 by default — this check is informational.
+        # Remove "|| true" if you want this check to fail on errors other than pending changes.

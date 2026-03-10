@@ -6,4 +6,3 @@ token: ${CONFLUENCE_TOKEN}
 space: WIKI
 docs_root: docs
 git_repo_url: https://github.com/acme-corp/wiki
-state_file: .ccfm-state.json
