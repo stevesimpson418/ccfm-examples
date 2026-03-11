@@ -1,7 +1,7 @@
 stages:
   - lint
   - plan
-  - deploy
+  - apply
 
 .ccfm-init:
   before_script:
@@ -26,7 +26,7 @@ lint:markdown:
         - docs-wiki/**/*
 
 # ---------------------------------------------------------------------------
-# API docs — deploy to ENG space
+# API docs — apply to ENG space
 # ---------------------------------------------------------------------------
 plan:api-docs:
   stage: plan
@@ -37,14 +37,14 @@ plan:api-docs:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm-api.yaml deploy --directory docs --plan
+    - ccfm --config ccfm-api.yaml plan --directory docs
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
         - docs/**/*
 
-deploy:api-docs:
-  stage: deploy
+apply:api-docs:
+  stage: apply
   image: ghcr.io/stevesimpson418/ccfm-convert:latest
   extends: .ccfm-init
   variables:
@@ -52,14 +52,14 @@ deploy:api-docs:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm-api.yaml deploy --directory docs --changed-only --archive-orphans
+    - ccfm --config ccfm-api.yaml apply --directory docs --auto-approve
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
         - docs/**/*
 
 # ---------------------------------------------------------------------------
-# Wiki docs — deploy to WIKI space
+# Wiki docs — apply to WIKI space
 # ---------------------------------------------------------------------------
 plan:wiki-docs:
   stage: plan
@@ -70,14 +70,14 @@ plan:wiki-docs:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm-wiki.yaml deploy --directory docs-wiki --plan
+    - ccfm --config ccfm-wiki.yaml plan --directory docs-wiki
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
         - docs-wiki/**/*
 
-deploy:wiki-docs:
-  stage: deploy
+apply:wiki-docs:
+  stage: apply
   image: ghcr.io/stevesimpson418/ccfm-convert:latest
   extends: .ccfm-init
   variables:
@@ -85,7 +85,7 @@ deploy:wiki-docs:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm-wiki.yaml deploy --directory docs-wiki --changed-only --archive-orphans
+    - ccfm --config ccfm-wiki.yaml apply --directory docs-wiki --auto-approve
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:

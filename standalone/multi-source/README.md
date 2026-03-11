@@ -1,6 +1,6 @@
 # Standalone -- Multi Source
 
-Two separate doc trees in one repository, each deploying to a different Confluence space. Each source has its own config file and Make targets.
+Two separate doc trees in one repository, each synced to a different Confluence space. Each source has its own config file and Make targets.
 
 ## Prerequisites
 
@@ -33,21 +33,21 @@ Two separate doc trees in one repository, each deploying to a different Confluen
 
 ## Usage
 
-Deploy each source independently or together:
+Apply each source independently or together:
 
 ```bash
 # Individual sources
 make init-api
 make plan-api
-make deploy-api
+make apply-api
 
 make init-wiki
 make plan-wiki
-make deploy-wiki
+make apply-wiki
 
 # Both sources at once
 make plan-all
-make deploy-all
+make apply-all
 ```
 
 ## Make Targets
@@ -57,16 +57,16 @@ make deploy-all
 | `install`     | --                | --     | Install ccfm-convert via pip         |
 | `init-api`    | `ccfm-api.yaml`  | `ENG`  | Create parent page for API docs      |
 | `plan-api`    | `ccfm-api.yaml`  | `ENG`  | Dry-run for API docs                 |
-| `deploy-api`  | `ccfm-api.yaml`  | `ENG`  | Sync API docs                        |
+| `apply-api`   | `ccfm-api.yaml`  | `ENG`  | Sync API docs                        |
 | `init-wiki`   | `ccfm-wiki.yaml` | `WIKI` | Create parent page for wiki docs     |
 | `plan-wiki`   | `ccfm-wiki.yaml` | `WIKI` | Dry-run for wiki docs                |
-| `deploy-wiki` | `ccfm-wiki.yaml` | `WIKI` | Sync wiki docs                       |
+| `apply-wiki`  | `ccfm-wiki.yaml` | `WIKI` | Sync wiki docs                       |
 | `plan-all`    | both              | both   | Dry-run for all sources              |
-| `deploy-all`  | both              | both   | Sync all sources                     |
+| `apply-all`   | both              | both   | Sync all sources                     |
 
 ## How It Works
 
-Each doc source gets its own `ccfm-*.yaml` config pointing at a different `docs_root` and Confluence `space`. The Makefile wraps both into unified `plan-all` and `deploy-all` targets for convenience.
+Each doc source gets its own `ccfm-*.yaml` config pointing at a different `docs_root` and Confluence `space`. The Makefile wraps both into unified `plan-all` and `apply-all` targets for convenience.
 
 ---
 

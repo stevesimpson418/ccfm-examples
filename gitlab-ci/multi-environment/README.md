@@ -50,11 +50,11 @@ Copy `.gitlab-ci.yml` and `ccfm.yaml` to the root of your repository.
 | `lint` | `lint:markdown` | MR + default branch | -- |
 | `plan` | `plan:staging` | MR only | Staging (`action: prepare`) |
 | `plan` | `plan:production` | MR only | Production (`action: prepare`) |
-| `deploy` | `deploy:staging` | Default branch (auto) | Staging |
-| `deploy` | `deploy:production` | Default branch (manual) | Production |
+| `apply` | `apply:staging` | Default branch (auto) | Staging |
+| `apply` | `apply:production` | Default branch (manual) | Production |
 
 - **Merge request** -- lint runs first, then plan jobs show what would change in both staging and production.
-- **Push to default branch** -- staging deploys automatically. Production is a manual gate (click the play button in the pipeline UI).
+- **Push to default branch** -- staging applies automatically. Production is a manual gate (click the play button in the pipeline UI).
 
 ## Why `action: prepare` on plan jobs?
 
@@ -66,9 +66,9 @@ See [GitLab docs: deployment safety](https://docs.gitlab.com/ee/ci/environments/
 
 ## Bootstrap with `ccfm init`
 
-The `.ccfm-init` hidden job runs `ccfm --config ccfm.yaml init` as a `before_script`. This idempotently creates the management pages ccfm needs in the target Confluence space. Because every plan and deploy job uses `extends: .ccfm-init`, the bootstrap happens automatically on the first run and is a no-op thereafter.
+The `.ccfm-init` hidden job runs `ccfm --config ccfm.yaml init` as a `before_script`. This idempotently creates the management pages ccfm needs in the target Confluence space. Because every plan and apply job uses `extends: .ccfm-init`, the bootstrap happens automatically on the first run and is a no-op thereafter.
 
-State is managed remotely in Confluence (v0.3.0+), so there are no local state files to pass between jobs via artifacts.
+State is managed remotely in Confluence, so there are no local state files to pass between jobs via artifacts.
 
 ## Troubleshooting
 

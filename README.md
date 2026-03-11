@@ -2,11 +2,11 @@
 
 Example projects demonstrating real-world usage of
 [ccfm-convert](https://github.com/stevesimpson418/ccfm-convert) — a CLI tool that
-converts Markdown to Atlassian Document Format (ADF) and deploys pages to Confluence Cloud.
+converts Markdown to Atlassian Document Format (ADF) and syncs pages to Confluence Cloud.
 
 ## Choose your deployment method
 
-| I want to deploy from... | Example | What's inside |
+| I want to run from... | Example | What's inside |
 | --- | --- | --- |
 | GitHub Actions | [`github-actions/`](github-actions/) | Workflows using the `ccfm-convert` GitHub Action |
 | GitLab CI | [`gitlab-ci/`](gitlab-ci/) | Pipelines using the `ccfm-convert` Docker image natively |
@@ -19,7 +19,7 @@ Each deployment method includes three patterns:
 
 | Pattern | When to use it | What changes |
 | --- | --- | --- |
-| **single-environment** | One docs tree, one Confluence space. Most common. | One `ccfm.yaml`, one deploy target |
+| **single-environment** | One docs tree, one Confluence space. Most common. | One `ccfm.yaml`, one apply target |
 | **multi-environment** | Staging review before production. | Same `ccfm.yaml`, space key varies per environment |
 | **multi-source** | Multiple doc trees in one repo targeting different spaces. | Multiple `ccfm.yaml` files, one per source |
 
@@ -41,8 +41,8 @@ export CONFLUENCE_TOKEN=your-api-token
 
 # Install and run
 make install
-make plan      # preview what would deploy (safe, read-only)
-make deploy    # deploy for real
+make plan      # preview what would change (safe, read-only)
+make apply     # apply changes to Confluence
 ```
 
 ## Shared docs
@@ -70,20 +70,17 @@ docker run ghcr.io/stevesimpson418/ccfm-convert --help
 ## Quick reference
 
 ```bash
-# Preview what would deploy (no changes made)
-ccfm --config ccfm.yaml deploy --directory docs --plan
-
-# Deploy all pages
-ccfm --config ccfm.yaml deploy --directory docs
-
-# Only deploy changed files
-ccfm --config ccfm.yaml deploy --directory docs --changed-only
-
-# Archive pages for deleted markdown files
-ccfm --config ccfm.yaml deploy --directory docs --archive-orphans
-
 # Initialize management pages
 ccfm --config ccfm.yaml init
+
+# Preview what would change (no modifications made)
+ccfm --config ccfm.yaml plan --directory docs
+
+# Apply changes to Confluence
+ccfm --config ccfm.yaml apply --directory docs --auto-approve
+
+# Force re-apply all pages regardless of state
+ccfm --config ccfm.yaml apply --directory docs --auto-approve --force
 ```
 
 See [ccfm-convert](https://github.com/stevesimpson418/ccfm-convert) for full documentation.

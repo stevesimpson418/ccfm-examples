@@ -8,7 +8,7 @@
 # CONFLUENCE_SPACE is set per-target to switch between staging and production.
 #
 
-.PHONY: install init-staging plan-staging deploy-staging init-production plan-production deploy-production
+.PHONY: install init-staging plan-staging apply-staging init-production plan-production apply-production
 
 install:
 	pip install ccfm-convert
@@ -17,16 +17,16 @@ init-staging:
 	CONFLUENCE_SPACE=ENG-STAGE ccfm --config ccfm.yaml init
 
 plan-staging:
-	CONFLUENCE_SPACE=ENG-STAGE ccfm --config ccfm.yaml deploy --directory docs --plan
+	CONFLUENCE_SPACE=ENG-STAGE ccfm --config ccfm.yaml plan --directory docs
 
-deploy-staging:
-	CONFLUENCE_SPACE=ENG-STAGE ccfm --config ccfm.yaml deploy --directory docs --changed-only --archive-orphans
+apply-staging:
+	CONFLUENCE_SPACE=ENG-STAGE ccfm --config ccfm.yaml apply --directory docs --auto-approve
 
 init-production:
 	CONFLUENCE_SPACE=ENG ccfm --config ccfm.yaml init
 
 plan-production:
-	CONFLUENCE_SPACE=ENG ccfm --config ccfm.yaml deploy --directory docs --plan
+	CONFLUENCE_SPACE=ENG ccfm --config ccfm.yaml plan --directory docs
 
-deploy-production:
-	CONFLUENCE_SPACE=ENG ccfm --config ccfm.yaml deploy --directory docs --changed-only --archive-orphans
+apply-production:
+	CONFLUENCE_SPACE=ENG ccfm --config ccfm.yaml apply --directory docs --auto-approve

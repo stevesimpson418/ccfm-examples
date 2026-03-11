@@ -6,7 +6,7 @@
 #   CONFLUENCE_TOKEN   — Confluence API token
 #
 
-.PHONY: install init plan deploy deploy-full
+.PHONY: install init plan apply apply-force
 
 install:
 	pip install ccfm-convert
@@ -15,10 +15,10 @@ init:
 	ccfm --config ccfm.yaml init
 
 plan:
-	ccfm --config ccfm.yaml deploy --directory docs --plan
+	ccfm --config ccfm.yaml plan --directory docs
 
-deploy:
-	ccfm --config ccfm.yaml deploy --directory docs --changed-only --archive-orphans
+apply:
+	ccfm --config ccfm.yaml apply --directory docs --auto-approve
 
-deploy-full:
-	ccfm --config ccfm.yaml deploy --directory docs --archive-orphans
+apply-force:
+	ccfm --config ccfm.yaml apply --directory docs --auto-approve --force

@@ -1,6 +1,6 @@
 # GitLab CI -- Single Environment
 
-One docs tree synced to one Confluence space using the `ccfm-convert` Docker image in GitLab CI. Plans on MR, deploys on merge to the default branch.
+One docs tree synced to one Confluence space using the `ccfm-convert` Docker image in GitLab CI. Plans on MR, applies on merge to the default branch.
 
 ## Prerequisites
 
@@ -29,8 +29,8 @@ One docs tree synced to one Confluence space using the `ccfm-convert` Docker ima
 
 ## How It Works
 
-- **Merge request** -- runs markdown linting and `--plan` to preview what would change. No changes are made to Confluence.
-- **Push to default branch** -- deploys docs to Confluence with `--changed-only` and `--archive-orphans`.
+- **Merge request** -- runs markdown linting and `ccfm plan` to preview what would change. No changes are made to Confluence.
+- **Push to default branch** -- runs `ccfm apply` to sync docs to Confluence.
 
 ## Pipeline Stages
 
@@ -38,7 +38,7 @@ One docs tree synced to one Confluence space using the `ccfm-convert` Docker ima
 |-------|-----|---------|
 | `lint` | `lint:markdown` | MR and default branch |
 | `plan` | `plan:confluence` | MR only |
-| `deploy` | `deploy:confluence` | Default branch only |
+| `apply` | `apply:confluence` | Default branch only |
 
 ---
 

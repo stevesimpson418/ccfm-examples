@@ -41,10 +41,10 @@ One docs tree synced to one Confluence space. Run locally or in any CI system.
    make plan
    ```
 
-6. Deploy to Confluence:
+6. Apply to Confluence:
 
    ```bash
-   make deploy
+   make apply
    ```
 
 ## Make Targets
@@ -54,8 +54,8 @@ One docs tree synced to one Confluence space. Run locally or in any CI system.
 | `install`     | Install ccfm-convert via pip                     |
 | `init`        | Create the parent page in Confluence             |
 | `plan`        | Dry-run showing what would be created or updated |
-| `deploy`      | Sync changed files and archive orphaned pages    |
-| `deploy-full` | Full sync (all files, not just changed)          |
+| `apply`       | Sync docs to Confluence                          |
+| `apply-force` | Full sync (all files, ignoring state)            |
 
 ---
 

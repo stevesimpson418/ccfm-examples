@@ -1,6 +1,6 @@
 # Docker -- Multi Source
 
-Two separate doc trees in one repository, each deploying to a different Confluence space via its own Docker Compose service. Each source has its own config file and volume mount.
+Two separate doc trees in one repository, each synced to a different Confluence space via its own Docker Compose service. Each source has its own config file and volume mount.
 
 ## Prerequisites
 
@@ -34,19 +34,19 @@ Two separate doc trees in one repository, each deploying to a different Confluen
 
 ## Usage
 
-Deploy API docs:
+Apply API docs:
 
 ```bash
-docker compose run --rm api-docs --config /ccfm.yaml deploy --directory /docs --changed-only --archive-orphans
+docker compose run --rm api-docs --config /ccfm.yaml apply --directory /docs --auto-approve
 ```
 
-Deploy wiki docs:
+Apply wiki docs:
 
 ```bash
-docker compose run --rm wiki-docs --config /ccfm.yaml deploy --directory /docs-wiki --changed-only --archive-orphans
+docker compose run --rm wiki-docs --config /ccfm.yaml apply --directory /docs-wiki --auto-approve
 ```
 
-Deploy all sources at once:
+Apply all sources at once:
 
 ```bash
 docker compose up
@@ -55,8 +55,8 @@ docker compose up
 Preview changes (dry-run):
 
 ```bash
-docker compose run --rm api-docs --config /ccfm.yaml deploy --directory /docs --plan
-docker compose run --rm wiki-docs --config /ccfm.yaml deploy --directory /docs-wiki --plan
+docker compose run --rm api-docs --config /ccfm.yaml plan --directory /docs
+docker compose run --rm wiki-docs --config /ccfm.yaml plan --directory /docs-wiki
 ```
 
 ## How It Works

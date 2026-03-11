@@ -1,6 +1,6 @@
 # GitLab CI -- Multi-Source
 
-Two doc trees deployed to two Confluence spaces from a single pipeline. Each source has its own `ccfm.yaml` config and deploys independently based on which files changed.
+Two doc trees synced to two Confluence spaces from a single pipeline. Each source has its own `ccfm.yaml` config and applies independently based on which files changed.
 
 ## Prerequisites
 
@@ -36,7 +36,7 @@ Two doc trees deployed to two Confluence spaces from a single pipeline. Each sou
 | `docs/` | `ccfm-api.yaml` | `ENG` | MR with `docs/` changes | Default branch with `docs/` changes |
 | `docs-wiki/` | `ccfm-wiki.yaml` | `WIKI` | MR with `docs-wiki/` changes | Default branch with `docs-wiki/` changes |
 
-Each doc source is fully independent. Changing a file in `docs/` does not trigger a deploy for `docs-wiki/`, and vice versa. The `.ccfm-init` hidden job uses the `$CCFM_CONFIG` variable to run `ccfm init` with the correct config file for each job.
+Each doc source is fully independent. Changing a file in `docs/` does not trigger an apply for `docs-wiki/`, and vice versa. The `.ccfm-init` hidden job uses the `$CCFM_CONFIG` variable to run `ccfm init` with the correct config file for each job.
 
 ---
 

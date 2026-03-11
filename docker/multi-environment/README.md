@@ -1,6 +1,6 @@
 # Docker -- Multi-Environment
 
-One docs tree deployed to multiple Confluence spaces (e.g. staging and production). Same compose file, different `.env` files per environment.
+One docs tree synced to multiple Confluence spaces (e.g. staging and production). Same compose file, different `.env` files per environment.
 
 ## Prerequisites
 
@@ -27,22 +27,22 @@ One docs tree deployed to multiple Confluence spaces (e.g. staging and productio
 
 ## Usage
 
-Deploy to staging:
+Apply to staging:
 
 ```bash
-docker compose --env-file .env.staging run --rm ccfm --config /ccfm.yaml deploy --directory /docs --changed-only --archive-orphans
+docker compose --env-file .env.staging run --rm ccfm --config /ccfm.yaml apply --directory /docs --auto-approve
 ```
 
-Deploy to production:
+Apply to production:
 
 ```bash
-docker compose --env-file .env.production run --rm ccfm --config /ccfm.yaml deploy --directory /docs --changed-only --archive-orphans
+docker compose --env-file .env.production run --rm ccfm --config /ccfm.yaml apply --directory /docs --auto-approve
 ```
 
 Preview changes (dry-run):
 
 ```bash
-docker compose --env-file .env.staging run --rm ccfm --config /ccfm.yaml deploy --directory /docs --plan
+docker compose --env-file .env.staging run --rm ccfm --config /ccfm.yaml plan --directory /docs
 ```
 
 ## How It Works

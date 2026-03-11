@@ -1,11 +1,11 @@
 stages:
   - lint
   - plan
-  - deploy
+  - apply
 
 # ---------------------------------------------------------------------------
 # Idempotent setup of ccfm management pages.
-# All plan and deploy jobs inherit this via `extends`.
+# All plan and apply jobs inherit this via `extends`.
 # ---------------------------------------------------------------------------
 .ccfm-init:
   before_script:
@@ -31,7 +31,8 @@ lint:markdown:
 
 # ---------------------------------------------------------------------------
 # plan:confluence
-# Informational plan check on MRs (exits 0 since v0.2.0).
+# Informational plan check on MRs (exits 0 by default).
+# Use --plan-exit-code to exit 2 when changes are pending (useful for gating).
 # ---------------------------------------------------------------------------
 plan:confluence:
   stage: plan
@@ -40,24 +41,24 @@ plan:confluence:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm.yaml deploy --directory docs --plan
+    - ccfm --config ccfm.yaml plan --directory docs
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
         - docs/**/*
 
 # ---------------------------------------------------------------------------
-# deploy:confluence
-# Deploys on push to the default branch when docs change.
+# apply:confluence
+# Applies changes on push to the default branch when docs change.
 # ---------------------------------------------------------------------------
-deploy:confluence:
-  stage: deploy
+apply:confluence:
+  stage: apply
   image: ghcr.io/stevesimpson418/ccfm-convert:latest
   extends: .ccfm-init
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm.yaml deploy --directory docs --changed-only --archive-orphans
+    - ccfm --config ccfm.yaml apply --directory docs --auto-approve
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:

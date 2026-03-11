@@ -1,6 +1,6 @@
 # Standalone -- Multi Environment
 
-One docs tree deployed to multiple Confluence spaces (e.g. staging and production). The `CONFLUENCE_SPACE` variable controls which space receives the deployment.
+One docs tree applied to multiple Confluence spaces (e.g. staging and production). The `CONFLUENCE_SPACE` variable controls which space is targeted.
 
 ## Prerequisites
 
@@ -32,17 +32,17 @@ One docs tree deployed to multiple Confluence spaces (e.g. staging and productio
 
 ## Workflow
 
-Deploy to staging first, verify, then promote to production:
+Apply to staging first, verify, then promote to production:
 
 ```bash
 make init-staging
 make plan-staging
-make deploy-staging
+make apply-staging
 
 # After review...
 make init-production
 make plan-production
-make deploy-production
+make apply-production
 ```
 
 ## Make Targets
@@ -52,10 +52,10 @@ make deploy-production
 | `install`           | --          | Install ccfm-convert via pip                     |
 | `init-staging`      | `ENG-STAGE` | Create parent page in staging space              |
 | `plan-staging`      | `ENG-STAGE` | Dry-run against staging                          |
-| `deploy-staging`    | `ENG-STAGE` | Sync changed files to staging                    |
+| `apply-staging`     | `ENG-STAGE` | Sync docs to staging                             |
 | `init-production`   | `ENG`       | Create parent page in production space           |
 | `plan-production`   | `ENG`       | Dry-run against production                       |
-| `deploy-production` | `ENG`       | Sync changed files to production                 |
+| `apply-production`  | `ENG`       | Sync docs to production                          |
 
 ## How It Works
 
