@@ -51,9 +51,9 @@ Each environment needs its own `CONFLUENCE_SPACE` variable and can optionally ov
 
 ## How It Works
 
-- **Pull request** -- runs `--plan` to preview changes. No Confluence modifications.
-- **Push to main** -- deploys to the Staging environment automatically.
-- **After staging succeeds** -- the Production job waits for manual approval from a required reviewer, then deploys to the production Confluence space.
+- **Pull request** -- runs `plan` to preview changes. No Confluence modifications.
+- **Push to main** -- initializes state and deploys to the Staging environment via `apply --auto-approve`.
+- **After staging succeeds** -- the Production job waits for manual approval from a required reviewer, then initializes state and deploys to the production Confluence space.
 
 Each environment resolves `CONFLUENCE_SPACE` from its own variable configuration, so the same workflow targets different spaces depending on the environment.
 

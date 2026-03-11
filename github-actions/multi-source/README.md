@@ -41,8 +41,8 @@ repo/
 
 ## How It Works
 
-- **Pull request** -- plans both doc sources independently. Each plan step shows what would change in its target space.
-- **Push to main** -- deploys both doc sources sequentially. API docs go to the `ENG` space, wiki docs go to the `WIKI` space.
+- **Pull request** -- initializes state and plans both doc sources independently. Each plan step shows what would change in its target space.
+- **Push to main** -- initializes state and deploys both doc sources sequentially via `apply --auto-approve`. API docs go to the `ENG` space, wiki docs go to the `WIKI` space.
 
 Each ccfm config file (`ccfm-api.yaml`, `ccfm-wiki.yaml`) defines its own `space` and `docs_root`, keeping the sources fully independent.
 

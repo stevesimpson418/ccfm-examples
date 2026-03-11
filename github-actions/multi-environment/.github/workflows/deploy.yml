@@ -18,16 +18,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Initialize ccfm
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ${{ vars.CONFLUENCE_SPACE }}
+          version: "0.5.0"
+          args: "init"
+
       - name: Plan docs changes
-        uses: stevesimpson418/ccfm-convert@v0.3.0
+        uses: stevesimpson418/ccfm-convert@v0.5.0
         with:
           domain: ${{ secrets.CONFLUENCE_DOMAIN }}
           email: ${{ secrets.CONFLUENCE_EMAIL }}
           token: ${{ secrets.CONFLUENCE_TOKEN }}
           space: ${{ vars.CONFLUENCE_SPACE }}
           directory: docs
-          version: "0.3.0"
-          args: "--plan"
+          version: "0.5.0"
+          args: "plan"
 
   deploy-staging:
     if: github.event_name == 'push'
@@ -37,16 +47,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Initialize ccfm
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ${{ vars.CONFLUENCE_SPACE }}
+          version: "0.5.0"
+          args: "init"
+
       - name: Deploy to staging
-        uses: stevesimpson418/ccfm-convert@v0.3.0
+        uses: stevesimpson418/ccfm-convert@v0.5.0
         with:
           domain: ${{ secrets.CONFLUENCE_DOMAIN }}
           email: ${{ secrets.CONFLUENCE_EMAIL }}
           token: ${{ secrets.CONFLUENCE_TOKEN }}
           space: ${{ vars.CONFLUENCE_SPACE }}
           directory: docs
-          version: "0.3.0"
-          args: "--changed-only --archive-orphans --git-repo-url https://github.com/${{ github.repository }}/blob/main"
+          version: "0.5.0"
+          args: "apply --auto-approve"
 
   deploy-production:
     if: github.event_name == 'push'
@@ -57,13 +77,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Initialize ccfm
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ${{ vars.CONFLUENCE_SPACE }}
+          version: "0.5.0"
+          args: "init"
+
       - name: Deploy to production
-        uses: stevesimpson418/ccfm-convert@v0.3.0
+        uses: stevesimpson418/ccfm-convert@v0.5.0
         with:
           domain: ${{ secrets.CONFLUENCE_DOMAIN }}
           email: ${{ secrets.CONFLUENCE_EMAIL }}
           token: ${{ secrets.CONFLUENCE_TOKEN }}
           space: ${{ vars.CONFLUENCE_SPACE }}
           directory: docs
-          version: "0.3.0"
-          args: "--changed-only --archive-orphans --git-repo-url https://github.com/${{ github.repository }}/blob/main"
+          version: "0.5.0"
+          args: "apply --auto-approve"

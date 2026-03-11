@@ -29,8 +29,8 @@ One docs tree synced to one Confluence space via the `ccfm-convert` GitHub Actio
 
 ## How It Works
 
-- **Pull request** -- runs `--plan` to preview what would change. The plan output appears in the Actions log. No changes are made to Confluence.
-- **Push to main** -- deploys docs to Confluence, archiving any orphaned pages (pages whose source markdown was deleted).
+- **Pull request** -- runs `plan` to preview what would change. The plan output appears in the Actions log. No changes are made to Confluence.
+- **Push to main** -- initializes state and deploys docs to Confluence via `apply --auto-approve`.
 
 ## Workflow Inputs
 
@@ -42,7 +42,7 @@ One docs tree synced to one Confluence space via the `ccfm-convert` GitHub Actio
 | `space` | Confluence space key |
 | `directory` | Path to the docs directory |
 | `version` | ccfm-convert version to use |
-| `args` | Additional CLI arguments |
+| `args` | CLI subcommand and flags |
 
 ---
 

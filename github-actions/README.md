@@ -4,7 +4,7 @@ Deploy Markdown docs to Confluence Cloud using the [`ccfm-convert` GitHub Action
 
 ## Overview
 
-These examples use the `stevesimpson418/ccfm-convert@v0.3.0` GitHub Action to sync documentation from a Git repository to Confluence. Each pattern demonstrates a different deployment topology while following the same plan-on-PR, deploy-on-push workflow.
+These examples use the `stevesimpson418/ccfm-convert@v0.5.0` GitHub Action to sync documentation from a Git repository to Confluence. Each pattern demonstrates a different deployment topology while following the same init → plan-on-PR, init → apply-on-push workflow.
 
 ## Patterns
 
@@ -26,7 +26,7 @@ All patterns require the following repository secrets configured in **Settings >
 
 ## GitHub Action Version
 
-These examples pin to `v0.3.0` of the `ccfm-convert` action. Check the [releases page](https://github.com/stevesimpson418/ccfm-convert/releases) for newer versions.
+These examples pin to `v0.5.0` of the `ccfm-convert` action. Check the [releases page](https://github.com/stevesimpson418/ccfm-convert/releases) for newer versions.
 
 ## Action Inputs
 
@@ -36,9 +36,9 @@ These examples pin to `v0.3.0` of the `ccfm-convert` action. Check the [releases
 | `email` | Yes | Confluence user email |
 | `token` | Yes | Confluence API token |
 | `space` | Yes | Confluence space key |
-| `directory` | Yes | Path to the docs directory |
+| `directory` | No | Path to the docs directory (not needed for `init`) |
 | `version` | Yes | ccfm-convert version to install |
-| `args` | No | Additional CLI arguments (e.g., `--plan`, `--changed-only`, `--archive-orphans`) |
+| `args` | No | CLI subcommand and flags (e.g., `init`, `plan`, `apply --auto-approve`) |
 
 ---
 
