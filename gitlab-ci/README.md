@@ -15,7 +15,7 @@ No action wrapper -- the `ccfm` CLI is available in `$PATH` inside the container
 ## Examples
 
 | Pattern | Description |
-|---------|-------------|
+| --------- | ------------- |
 | [`single-environment/`](single-environment/) | One docs tree, one Confluence space. Plan on MR, apply on merge. |
 | [`multi-environment/`](multi-environment/) | Staging and production spaces using GitLab Environments and scoped variables. |
 | [`multi-source/`](multi-source/) | Two doc trees synced to two spaces from a single pipeline. |
@@ -25,7 +25,7 @@ No action wrapper -- the `ccfm` CLI is available in `$PATH` inside the container
 All examples require three CI/CD variables configured in **Settings > CI/CD > Variables**:
 
 | Variable | Value |
-|----------|-------|
+| ---------- | ------- |
 | `CONFLUENCE_DOMAIN` | Your Confluence Cloud domain (e.g. `acme-corp.atlassian.net`) |
 | `CONFLUENCE_EMAIL` | Confluence user email |
 | `CONFLUENCE_TOKEN` | Confluence API token (mark as **Masked**) |

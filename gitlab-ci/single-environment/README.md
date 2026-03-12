@@ -18,7 +18,7 @@ One docs tree synced to one Confluence space using the `ccfm-convert` Docker ima
 2. Add the following CI/CD variables in **Settings > CI/CD > Variables**:
 
    | Variable | Value | Options |
-   |----------|-------|---------|
+   | ---------- | ------- | --------- |
    | `CONFLUENCE_DOMAIN` | `acme-corp.atlassian.net` | |
    | `CONFLUENCE_EMAIL` | `you@acme-corp.com` | |
    | `CONFLUENCE_TOKEN` | Your Confluence API token | Masked |
@@ -35,7 +35,7 @@ One docs tree synced to one Confluence space using the `ccfm-convert` Docker ima
 ## Pipeline Stages
 
 | Stage | Job | Trigger |
-|-------|-----|---------|
+| ------- | ----- | --------- |
 | `lint` | `lint:markdown` | MR and default branch |
 | `plan` | `plan:confluence` | MR only |
 | `apply` | `apply:confluence` | Default branch only |

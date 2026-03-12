@@ -21,7 +21,7 @@ cp -r ../../_shared/docs docs/
 In **Settings > CI/CD > Variables**, add:
 
 | Variable | Value | Scope | Options |
-|----------|-------|-------|---------|
+| ---------- | ------- | ------- | --------- |
 | `CONFLUENCE_DOMAIN` | `acme-corp.atlassian.net` | All environments | |
 | `CONFLUENCE_EMAIL` | `you@acme-corp.com` | All environments | |
 | `CONFLUENCE_TOKEN` | Your API token | All environments | Masked |
@@ -46,7 +46,7 @@ Copy `.gitlab-ci.yml` and `ccfm.yaml` to the root of your repository.
 ## How It Works
 
 | Stage | Job | Trigger | Environment |
-|-------|-----|---------|-------------|
+| ------- | ----- | --------- | ------------- |
 | `lint` | `lint:markdown` | MR + default branch | -- |
 | `plan` | `plan:staging` | MR only | Staging (`action: prepare`) |
 | `plan` | `plan:production` | MR only | Production (`action: prepare`) |

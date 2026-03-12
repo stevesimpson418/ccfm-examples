@@ -20,7 +20,7 @@ Two doc trees synced to two Confluence spaces from a single pipeline. Each sourc
 2. Add CI/CD variables in **Settings > CI/CD > Variables**:
 
    | Variable | Value | Options |
-   |----------|-------|---------|
+   | ---------- | ------- | --------- |
    | `CONFLUENCE_DOMAIN` | `acme-corp.atlassian.net` | |
    | `CONFLUENCE_EMAIL` | `you@acme-corp.com` | |
    | `CONFLUENCE_TOKEN` | Your Confluence API token | Masked |
@@ -32,7 +32,7 @@ Two doc trees synced to two Confluence spaces from a single pipeline. Each sourc
 ## How It Works
 
 | Source | Config | Space | Plan trigger | Deploy trigger |
-|--------|--------|-------|--------------|----------------|
+| -------- | -------- | ------- | -------------- | ---------------- |
 | `docs/` | `ccfm-api.yaml` | `ENG` | MR with `docs/` changes | Default branch with `docs/` changes |
 | `docs-wiki/` | `ccfm-wiki.yaml` | `WIKI` | MR with `docs-wiki/` changes | Default branch with `docs-wiki/` changes |
 
