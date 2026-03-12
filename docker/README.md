@@ -6,11 +6,11 @@ Run ccfm-convert via Docker. Works anywhere Docker runs -- local machines, CI sy
 
 ## Patterns
 
-| Pattern                                    | Description                                                        |
-|--------------------------------------------|--------------------------------------------------------------------|
-| [single-environment](./single-environment) | One docs tree synced to one Confluence space                       |
-| [multi-environment](./multi-environment)   | One docs tree synced to staging and production spaces              |
-| [multi-source](./multi-source)             | Two doc trees in one repo, each targeting a different space        |
+| Pattern | Description |
+| --- | --- |
+| [single-environment](./single-environment) | One docs tree synced to one Confluence space |
+| [multi-environment](./multi-environment) | One docs tree synced to staging and production spaces |
+| [multi-source](./multi-source) | Two doc trees in one repo, each targeting a different space |
 
 ## Common Setup
 

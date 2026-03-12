@@ -49,13 +49,13 @@ One docs tree synced to one Confluence space. Run locally or in any CI system.
 
 ## Make Targets
 
-| Target        | Description                                      |
-|---------------|--------------------------------------------------|
-| `install`     | Install ccfm-convert via pip                     |
-| `init`        | Create the parent page in Confluence             |
-| `plan`        | Dry-run showing what would be created or updated |
-| `apply`       | Sync docs to Confluence                          |
-| `apply-force` | Full sync (all files, ignoring state)            |
+| Target | Description |
+| --- | --- |
+| `install` | Install ccfm-convert via pip |
+| `init` | Create the parent page in Confluence |
+| `plan` | Dry-run showing what would be created or updated |
+| `apply` | Sync docs to Confluence |
+| `apply-force` | Full sync (all files, ignoring state) |
 
 ---
 

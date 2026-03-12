@@ -13,7 +13,7 @@ Deploy multiple doc trees from a single repository to different Confluence space
 1. Add repository secrets in **Settings > Secrets and variables > Actions**:
 
    | Secret | Value |
-   |--------|-------|
+   | -------- | ------- |
    | `CONFLUENCE_DOMAIN` | `acme-corp.atlassian.net` |
    | `CONFLUENCE_EMAIL` | `you@acme-corp.com` |
    | `CONFLUENCE_TOKEN` | Your Confluence API token |
@@ -29,7 +29,7 @@ Deploy multiple doc trees from a single repository to different Confluence space
 
 ## Structure
 
-```
+```bash
 repo/
   ccfm-api.yaml      # config for API docs -> ENG space
   ccfm-wiki.yaml     # config for wiki docs -> WIKI space

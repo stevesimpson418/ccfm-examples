@@ -9,7 +9,7 @@ These examples use the `stevesimpson418/ccfm-convert@v0.5.0` GitHub Action to sy
 ## Patterns
 
 | Pattern | Directory | Description |
-|---------|-----------|-------------|
+| --------- | ----------- | ------------- |
 | Single Environment | [`single-environment/`](single-environment/) | One docs tree, one Confluence space |
 | Multi-Environment | [`multi-environment/`](multi-environment/) | One docs tree, separate staging and production spaces via GitHub Environments |
 | Multi-Source | [`multi-source/`](multi-source/) | Multiple doc trees in one repo, each targeting a different space |
@@ -19,7 +19,7 @@ These examples use the `stevesimpson418/ccfm-convert@v0.5.0` GitHub Action to sy
 All patterns require the following repository secrets configured in **Settings > Secrets and variables > Actions**:
 
 | Secret | Description |
-|--------|-------------|
+| -------- | ------------- |
 | `CONFLUENCE_DOMAIN` | Your Confluence Cloud domain (e.g., `acme-corp.atlassian.net`) |
 | `CONFLUENCE_EMAIL` | Email address of the Confluence API user |
 | `CONFLUENCE_TOKEN` | Confluence API token ([create one here](https://id.atlassian.com/manage-profile/security/api-tokens)) |
@@ -31,7 +31,7 @@ These examples pin to `v0.5.0` of the `ccfm-convert` action. Check the [releases
 ## Action Inputs
 
 | Input | Required | Description |
-|-------|----------|-------------|
+| ------- | ---------- | ------------- |
 | `domain` | Yes | Confluence Cloud domain |
 | `email` | Yes | Confluence user email |
 | `token` | Yes | Confluence API token |

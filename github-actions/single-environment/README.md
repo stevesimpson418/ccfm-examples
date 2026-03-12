@@ -12,7 +12,7 @@ One docs tree synced to one Confluence space via the `ccfm-convert` GitHub Actio
 1. Add the following repository secrets in **Settings > Secrets and variables > Actions**:
 
    | Secret | Value |
-   |--------|-------|
+   | -------- | ------- |
    | `CONFLUENCE_DOMAIN` | `acme-corp.atlassian.net` |
    | `CONFLUENCE_EMAIL` | `you@acme-corp.com` |
    | `CONFLUENCE_TOKEN` | Your Confluence API token |
@@ -35,7 +35,7 @@ One docs tree synced to one Confluence space via the `ccfm-convert` GitHub Actio
 ## Workflow Inputs
 
 | Input | Description |
-|-------|-------------|
+| ------- | ------------- |
 | `domain` | Confluence Cloud domain |
 | `email` | Confluence user email |
 | `token` | Confluence API token |

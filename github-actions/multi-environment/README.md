@@ -15,7 +15,7 @@ Deploy docs to separate Confluence spaces per environment using GitHub Environme
 Go to **Settings > Environments** and create two environments:
 
 | Environment | Purpose |
-|-------------|---------|
+| ------------- | --------- |
 | `Staging` | Auto-deploys on push to `main` |
 | `Production` | Requires reviewer approval before deploy |
 
@@ -28,7 +28,7 @@ Each environment needs its own `CONFLUENCE_SPACE` variable and can optionally ov
 **Repository-level secrets** (shared across environments):
 
 | Secret | Value |
-|--------|-------|
+| -------- | ------- |
 | `CONFLUENCE_DOMAIN` | `acme-corp.atlassian.net` |
 | `CONFLUENCE_EMAIL` | `you@acme-corp.com` |
 | `CONFLUENCE_TOKEN` | Your Confluence API token |
@@ -36,7 +36,7 @@ Each environment needs its own `CONFLUENCE_SPACE` variable and can optionally ov
 **Per-environment variables** (Settings > Environments > [env] > Variables):
 
 | Variable | Staging | Production |
-|----------|---------|------------|
+| ---------- | --------- | ------------ |
 | `CONFLUENCE_SPACE` | `ENG_STAGING` | `ENG` |
 
 ### 3. Add docs and workflow

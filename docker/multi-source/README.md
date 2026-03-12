@@ -63,10 +63,10 @@ docker compose run --rm wiki-docs --config /ccfm.yaml plan --directory /docs-wik
 
 Each service in `docker-compose.yml` mounts a different docs directory and config file. The config files target different Confluence spaces:
 
-| Service     | Config            | Docs mount   | Space  |
-|-------------|-------------------|--------------|--------|
-| `api-docs`  | `ccfm-api.yaml`  | `./docs`     | `ENG`  |
-| `wiki-docs` | `ccfm-wiki.yaml` | `./docs-wiki`| `WIKI` |
+| Service | Config | Docs mount | Space |
+| --- | --- | --- | --- |
+| `api-docs` | `ccfm-api.yaml` | `./docs` | `ENG` |
+| `wiki-docs` | `ccfm-wiki.yaml` | `./docs-wiki` | `WIKI` |
 
 Both configs are mounted to `/ccfm.yaml` inside their respective containers, keeping the command interface consistent.
 

@@ -52,17 +52,17 @@ make apply-all
 
 ## Make Targets
 
-| Target        | Config            | Space  | Description                          |
-|---------------|-------------------|--------|--------------------------------------|
-| `install`     | --                | --     | Install ccfm-convert via pip         |
-| `init-api`    | `ccfm-api.yaml`  | `ENG`  | Create parent page for API docs      |
-| `plan-api`    | `ccfm-api.yaml`  | `ENG`  | Dry-run for API docs                 |
-| `apply-api`   | `ccfm-api.yaml`  | `ENG`  | Sync API docs                        |
-| `init-wiki`   | `ccfm-wiki.yaml` | `WIKI` | Create parent page for wiki docs     |
-| `plan-wiki`   | `ccfm-wiki.yaml` | `WIKI` | Dry-run for wiki docs                |
-| `apply-wiki`  | `ccfm-wiki.yaml` | `WIKI` | Sync wiki docs                       |
-| `plan-all`    | both              | both   | Dry-run for all sources              |
-| `apply-all`   | both              | both   | Sync all sources                     |
+| Target | Config | Space | Description |
+| --- | --- | --- | --- |
+| `install` | -- | -- | Install ccfm-convert via pip |
+| `init-api` | `ccfm-api.yaml` | `ENG` | Create parent page for API docs |
+| `plan-api` | `ccfm-api.yaml` | `ENG` | Dry-run for API docs |
+| `apply-api` | `ccfm-api.yaml` | `ENG` | Sync API docs |
+| `init-wiki` | `ccfm-wiki.yaml` | `WIKI` | Create parent page for wiki docs |
+| `plan-wiki` | `ccfm-wiki.yaml` | `WIKI` | Dry-run for wiki docs |
+| `apply-wiki` | `ccfm-wiki.yaml` | `WIKI` | Sync wiki docs |
+| `plan-all` | both | both | Dry-run for all sources |
+| `apply-all` | both | both | Sync all sources |
 
 ## How It Works
 

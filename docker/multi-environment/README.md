@@ -49,10 +49,10 @@ docker compose --env-file .env.staging run --rm ccfm --config /ccfm.yaml plan --
 
 The `ccfm.yaml` config uses `${CONFLUENCE_SPACE}` as a variable, which is resolved from the `.env` file passed to `docker compose`. This lets you target different Confluence spaces with the same compose file and config.
 
-| File              | Space        | Purpose    |
-|-------------------|--------------|------------|
-| `.env.staging`    | `ENG-STAGE`  | Staging    |
-| `.env.production` | `ENG`        | Production |
+| File | Space | Purpose |
+| --- | --- | --- |
+| `.env.staging` | `ENG-STAGE` | Staging |
+| `.env.production` | `ENG` | Production |
 
 ---
 

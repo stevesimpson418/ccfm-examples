@@ -47,15 +47,15 @@ make apply-production
 
 ## Make Targets
 
-| Target              | Space       | Description                                      |
-|---------------------|-------------|--------------------------------------------------|
-| `install`           | --          | Install ccfm-convert via pip                     |
-| `init-staging`      | `ENG-STAGE` | Create parent page in staging space              |
-| `plan-staging`      | `ENG-STAGE` | Dry-run against staging                          |
-| `apply-staging`     | `ENG-STAGE` | Sync docs to staging                             |
-| `init-production`   | `ENG`       | Create parent page in production space           |
-| `plan-production`   | `ENG`       | Dry-run against production                       |
-| `apply-production`  | `ENG`       | Sync docs to production                          |
+| Target | Space | Description |
+| --- | --- | --- |
+| `install` | -- | Install ccfm-convert via pip |
+| `init-staging` | `ENG-STAGE` | Create parent page in staging space |
+| `plan-staging` | `ENG-STAGE` | Dry-run against staging |
+| `apply-staging` | `ENG-STAGE` | Sync docs to staging |
+| `init-production` | `ENG` | Create parent page in production space |
+| `plan-production` | `ENG` | Dry-run against production |
+| `apply-production` | `ENG` | Sync docs to production |
 
 ## How It Works
 
