@@ -13,9 +13,9 @@ deploy_config:
 # ADR-003: Circuit Breaker Pattern for Downstream Calls
 
 **Status**: ::Proposed::yellow::
-**Date**: @2026-02-10@
+**Date**: @date:2026-02-10
 **Authors**: Sarah Kim
-**Review deadline**: @2026-03-28@
+**Review deadline**: @date:2026-03-28
 
 ---
 

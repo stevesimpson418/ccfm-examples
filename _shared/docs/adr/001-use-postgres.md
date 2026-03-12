@@ -12,7 +12,7 @@ deploy_config:
 # ADR-001: Use PostgreSQL as Primary Database
 
 **Status**: ::Accepted::green::
-**Date**: @2024-08-12@
+**Date**: @date:2024-08-12
 **Authors**: Priya Mehta, Sarah Kim
 
 ---

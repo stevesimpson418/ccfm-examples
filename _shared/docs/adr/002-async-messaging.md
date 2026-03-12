@@ -12,7 +12,7 @@ deploy_config:
 # ADR-002: Async Messaging via Kafka
 
 **Status**: ::Accepted::green::
-**Date**: @2024-09-03@
+**Date**: @date:2024-09-03
 **Authors**: Priya Mehta, Jordan Lee
 
 ---
