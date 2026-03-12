@@ -1,0 +1,68 @@
+name: Docs — Plan & Deploy
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+
+jobs:
+  plan:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize ccfm
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ENG
+          version: "0.5.0"
+          args: "init"
+
+      - name: Plan docs changes
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ENG
+          directory: docs
+          version: "0.5.0"
+          args: "plan"
+
+  deploy:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize ccfm
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ENG
+          version: "0.5.0"
+          args: "init"
+
+      - name: Deploy docs to Confluence
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ENG
+          directory: docs
+          version: "0.5.0"
+          args: "apply --auto-approve"

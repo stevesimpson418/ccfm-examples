@@ -1,0 +1,14 @@
+services:
+  api-docs:
+    image: ghcr.io/stevesimpson418/ccfm-convert:latest
+    env_file: .env
+    volumes:
+      - ./docs:/docs:ro
+      - ./ccfm-api.yaml:/ccfm.yaml:ro
+
+  wiki-docs:
+    image: ghcr.io/stevesimpson418/ccfm-convert:latest
+    env_file: .env
+    volumes:
+      - ./docs-wiki:/docs-wiki:ro
+      - ./ccfm-wiki.yaml:/ccfm.yaml:ro

@@ -1,0 +1,112 @@
+name: Docs — Multi-Source Deploy
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'docs-wiki/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'docs-wiki/**'
+
+jobs:
+  plan:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize ccfm (API docs)
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ENG
+          version: "0.5.0"
+          args: "init"
+
+      - name: Plan API docs
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ENG
+          directory: docs
+          version: "0.5.0"
+          args: "plan"
+
+      - name: Initialize ccfm (wiki docs)
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: WIKI
+          version: "0.5.0"
+          args: "init"
+
+      - name: Plan wiki docs
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: WIKI
+          directory: docs-wiki
+          version: "0.5.0"
+          args: "plan"
+
+  deploy:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize ccfm (API docs)
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ENG
+          version: "0.5.0"
+          args: "init"
+
+      - name: Deploy API docs
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: ENG
+          directory: docs
+          version: "0.5.0"
+          args: "apply --auto-approve"
+
+      - name: Initialize ccfm (wiki docs)
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: WIKI
+          version: "0.5.0"
+          args: "init"
+
+      - name: Deploy wiki docs
+        uses: stevesimpson418/ccfm-convert@v0.5.0
+        with:
+          domain: ${{ secrets.CONFLUENCE_DOMAIN }}
+          email: ${{ secrets.CONFLUENCE_EMAIL }}
+          token: ${{ secrets.CONFLUENCE_TOKEN }}
+          space: WIKI
+          directory: docs-wiki
+          version: "0.5.0"
+          args: "apply --auto-approve"

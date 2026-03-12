@@ -1,0 +1,65 @@
+stages:
+  - lint
+  - plan
+  - apply
+
+# ---------------------------------------------------------------------------
+# Idempotent setup of ccfm management pages.
+# All plan and apply jobs inherit this via `extends`.
+# ---------------------------------------------------------------------------
+.ccfm-init:
+  before_script:
+    - ccfm --config ccfm.yaml init
+
+# ---------------------------------------------------------------------------
+# lint:markdown
+# ---------------------------------------------------------------------------
+lint:markdown:
+  stage: lint
+  image: node:20-alpine
+  before_script:
+    - npm install -g markdownlint-cli2
+  script:
+    - markdownlint-cli2 "docs/**/*.md"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - docs/**/*
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs/**/*
+
+# ---------------------------------------------------------------------------
+# plan:confluence
+# Informational plan check on MRs (exits 0 by default).
+# Use --plan-exit-code to exit 2 when changes are pending (useful for gating).
+# ---------------------------------------------------------------------------
+plan:confluence:
+  stage: plan
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  extends: .ccfm-init
+  needs:
+    - lint:markdown
+  script:
+    - ccfm --config ccfm.yaml plan --directory docs
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - docs/**/*
+
+# ---------------------------------------------------------------------------
+# apply:confluence
+# Applies changes on push to the default branch when docs change.
+# ---------------------------------------------------------------------------
+apply:confluence:
+  stage: apply
+  image: ghcr.io/stevesimpson418/ccfm-convert:latest
+  extends: .ccfm-init
+  needs:
+    - lint:markdown
+  script:
+    - ccfm --config ccfm.yaml apply --directory docs --auto-approve
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - docs/**/*
