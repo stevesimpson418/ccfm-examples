@@ -83,4 +83,4 @@ ccfm --config ccfm.yaml apply --directory docs --auto-approve
 ccfm --config ccfm.yaml apply --directory docs --auto-approve --force
 ```
 
-See [ccfm-convert](https://github.com/stevesimpson418/ccfm-convert) for full documentation.
+See [ccfm.io](https://ccfm.io) for full documentation.

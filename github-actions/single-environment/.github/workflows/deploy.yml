@@ -19,24 +19,24 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Initialize ccfm
-        uses: stevesimpson418/ccfm-convert@v0.5.0
+        uses: stevesimpson418/ccfm-convert@v1.0.0
         with:
           domain: ${{ secrets.CONFLUENCE_DOMAIN }}
           email: ${{ secrets.CONFLUENCE_EMAIL }}
           token: ${{ secrets.CONFLUENCE_TOKEN }}
           space: ENG
-          version: "0.5.0"
+          version: "1.0.0"
           args: "init"
 
       - name: Plan docs changes
-        uses: stevesimpson418/ccfm-convert@v0.5.0
+        uses: stevesimpson418/ccfm-convert@v1.0.0
         with:
           domain: ${{ secrets.CONFLUENCE_DOMAIN }}
           email: ${{ secrets.CONFLUENCE_EMAIL }}
           token: ${{ secrets.CONFLUENCE_TOKEN }}
           space: ENG
           directory: docs
-          version: "0.5.0"
+          version: "1.0.0"
           args: "plan"
 
   deploy:
@@ -47,22 +47,22 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Initialize ccfm
-        uses: stevesimpson418/ccfm-convert@v0.5.0
+        uses: stevesimpson418/ccfm-convert@v1.0.0
         with:
           domain: ${{ secrets.CONFLUENCE_DOMAIN }}
           email: ${{ secrets.CONFLUENCE_EMAIL }}
           token: ${{ secrets.CONFLUENCE_TOKEN }}
           space: ENG
-          version: "0.5.0"
+          version: "1.0.0"
           args: "init"
 
       - name: Deploy docs to Confluence
-        uses: stevesimpson418/ccfm-convert@v0.5.0
+        uses: stevesimpson418/ccfm-convert@v1.0.0
         with:
           domain: ${{ secrets.CONFLUENCE_DOMAIN }}
           email: ${{ secrets.CONFLUENCE_EMAIL }}
           token: ${{ secrets.CONFLUENCE_TOKEN }}
           space: ENG
           directory: docs
-          version: "0.5.0"
+          version: "1.0.0"
           args: "apply --auto-approve"

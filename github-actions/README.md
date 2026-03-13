@@ -4,7 +4,7 @@ Deploy Markdown docs to Confluence Cloud using the [`ccfm-convert` GitHub Action
 
 ## Overview
 
-These examples use the `stevesimpson418/ccfm-convert@v0.5.0` GitHub Action to sync documentation from a Git repository to Confluence. Each pattern demonstrates a different deployment topology while following the same init → plan-on-PR, init → apply-on-push workflow.
+These examples use the `stevesimpson418/ccfm-convert@v1.0.0` GitHub Action to sync documentation from a Git repository to Confluence. Each pattern demonstrates a different deployment topology while following the same init → plan-on-PR, init → apply-on-push workflow.
 
 ## Patterns
 
@@ -26,7 +26,7 @@ All patterns require the following repository secrets configured in **Settings >
 
 ## GitHub Action Version
 
-These examples pin to `v0.5.0` of the `ccfm-convert` action. Check the [releases page](https://github.com/stevesimpson418/ccfm-convert/releases) for newer versions.
+These examples pin to `v1.0.0` of the `ccfm-convert` action. Check the [releases page](https://github.com/stevesimpson418/ccfm-convert/releases) for newer versions.
 
 ## Action Inputs
 
