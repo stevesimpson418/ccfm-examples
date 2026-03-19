@@ -58,24 +58,23 @@ Outside core hours, you have flexibility on when and where you work. Speak to yo
 
 ## Expenses
 
-:::expand Expense policy summary
-**Approved without pre-approval (up to £75 per item)**
-- Work-related books and online courses
-- Conference registration (with manager awareness)
-- Home office consumables (pens, notebooks, etc.)
-
-**Require manager pre-approval**
-- Equipment purchases (keyboards, monitors, etc.) — up to £500 every 2 years
-- Travel and accommodation for company events
-- Software subscriptions not on the approved list
-
-**Require VP-level approval**
-- Any single expense over £500
-- International travel
-- Client entertainment
-
-Submit all expenses via Workday within 30 days of purchase. Attach receipts; claims without receipts will be rejected.
-:::
+> [!expand Expense policy summary]
+> **Approved without pre-approval (up to £75 per item)**
+> - Work-related books and online courses
+> - Conference registration (with manager awareness)
+> - Home office consumables (pens, notebooks, etc.)
+>
+> **Require manager pre-approval**
+> - Equipment purchases (keyboards, monitors, etc.) — up to £500 every 2 years
+> - Travel and accommodation for company events
+> - Software subscriptions not on the approved list
+>
+> **Require VP-level approval**
+> - Any single expense over £500
+> - International travel
+> - Client entertainment
+>
+> Submit all expenses via Workday within 30 days of purchase. Attach receipts; claims without receipts will be rejected.
 
 > [!warning]
 > Personal credit cards and company cards must not be used interchangeably. If you've been issued a company card, use it for business expenses. Personal card claims are fine for approved expenses when a company card isn't practical.

@@ -27,15 +27,14 @@ Procedure for deploying the Order Service to staging and production.
 > [!warning]
 > Complete all pre-flight checks before tagging a production release. Skipping steps has caused incidents.
 
-:::expand Pre-flight checklist
-- [ ] All CI checks passing on `main` (lint, tests, security scan)
-- [ ] Staging deploy successful and smoke tests passing (automated — check GitHub Actions)
-- [ ] No active incidents in `#incidents` that could be worsened by a deploy
-- [ ] Kafka consumer lag on `orders.order-events` is < 10 seconds (check Datadog)
-- [ ] Inventory Service health check passing (order creation depends on it)
-- [ ] Change communicated to `#deployments` with estimated deployment window
-- [ ] Rollback plan reviewed (see [Rollback Runbook](page:"Rollback Procedure"))
-:::
+> [!expand Pre-flight checklist]
+> - [ ] All CI checks passing on `main` (lint, tests, security scan)
+> - [ ] Staging deploy successful and smoke tests passing (automated — check GitHub Actions)
+> - [ ] No active incidents in `#incidents` that could be worsened by a deploy
+> - [ ] Kafka consumer lag on `orders.order-events` is < 10 seconds (check Datadog)
+> - [ ] Inventory Service health check passing (order creation depends on it)
+> - [ ] Change communicated to `#deployments` with estimated deployment window
+> - [ ] Rollback plan reviewed (see [Rollback Runbook](page:"Rollback Procedure"))
 
 ---
 

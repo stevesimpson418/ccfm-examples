@@ -53,106 +53,102 @@ All events share this envelope:
 
 ## Event schemas
 
-:::expand order.created
-**Emitted when**: Order successfully created and inventory reserved.
+> [!expand order.created]
+> **Emitted when**: Order successfully created and inventory reserved.
+>
+> ```json
+> {
+>   "event_id": "evt_01h9ab...",
+>   "event_type": "order.created",
+>   "schema_version": 2,
+>   "occurred_at": "2026-03-01T14:32:00.000Z",
+>   "account_id": "acc_01h8xq...",
+>   "correlation_id": "req_01h8xz...",
+>   "payload": {
+>     "order_id": "ord_01h8xr...",
+>     "external_ref": "your-order-123",
+>     "status": "pending",
+>     "currency": "GBP",
+>     "total_amount": 2998,
+>     "items": [
+>       {
+>         "sku": "WIDGET-RED-M",
+>         "quantity": 2,
+>         "unit_price": 1499,
+>         "line_total": 2998
+>       }
+>     ],
+>     "shipping_address": {
+>       "country": "GB",
+>       "postcode": "EC1A 1BB"
+>     }
+>   }
+> }
+> ```
 
-```json
-{
-  "event_id": "evt_01h9ab...",
-  "event_type": "order.created",
-  "schema_version": 2,
-  "occurred_at": "2026-03-01T14:32:00.000Z",
-  "account_id": "acc_01h8xq...",
-  "correlation_id": "req_01h8xz...",
-  "payload": {
-    "order_id": "ord_01h8xr...",
-    "external_ref": "your-order-123",
-    "status": "pending",
-    "currency": "GBP",
-    "total_amount": 2998,
-    "items": [
-      {
-        "sku": "WIDGET-RED-M",
-        "quantity": 2,
-        "unit_price": 1499,
-        "line_total": 2998
-      }
-    ],
-    "shipping_address": {
-      "country": "GB",
-      "postcode": "EC1A 1BB"
-    }
-  }
-}
-```
-:::
+> [!expand order.status.changed]
+> **Emitted when**: Order transitions between any two statuses.
+>
+> ```json
+> {
+>   "event_id": "evt_01h9ac...",
+>   "event_type": "order.status.changed",
+>   "schema_version": 2,
+>   "occurred_at": "2026-03-01T14:35:00.000Z",
+>   "account_id": "acc_01h8xq...",
+>   "correlation_id": "sys_fulfil_01...",
+>   "payload": {
+>     "order_id": "ord_01h8xr...",
+>     "external_ref": "your-order-123",
+>     "previous_status": "confirmed",
+>     "new_status": "processing",
+>     "actor": "fulfil-worker-v2",
+>     "changed_at": "2026-03-01T14:34:58.000Z"
+>   }
+> }
+> ```
 
-:::expand order.status.changed
-**Emitted when**: Order transitions between any two statuses.
+> [!expand order.cancelled]
+> **Emitted when**: Order cancelled by API call or internal system action.
+>
+> ```json
+> {
+>   "event_id": "evt_01h9ad...",
+>   "event_type": "order.cancelled",
+>   "schema_version": 2,
+>   "occurred_at": "2026-03-01T16:00:00.000Z",
+>   "account_id": "acc_01h8xq...",
+>   "correlation_id": "req_01h8aa...",
+>   "payload": {
+>     "order_id": "ord_01h8xr...",
+>     "external_ref": "your-order-123",
+>     "cancelled_reason": "customer_request",
+>     "cancelled_at": "2026-03-01T16:00:00.000Z",
+>     "refund_eligible": true
+>   }
+> }
+> ```
 
-```json
-{
-  "event_id": "evt_01h9ac...",
-  "event_type": "order.status.changed",
-  "schema_version": 2,
-  "occurred_at": "2026-03-01T14:35:00.000Z",
-  "account_id": "acc_01h8xq...",
-  "correlation_id": "sys_fulfil_01...",
-  "payload": {
-    "order_id": "ord_01h8xr...",
-    "external_ref": "your-order-123",
-    "previous_status": "confirmed",
-    "new_status": "processing",
-    "actor": "fulfil-worker-v2",
-    "changed_at": "2026-03-01T14:34:58.000Z"
-  }
-}
-```
-:::
-
-:::expand order.cancelled
-**Emitted when**: Order cancelled by API call or internal system action.
-
-```json
-{
-  "event_id": "evt_01h9ad...",
-  "event_type": "order.cancelled",
-  "schema_version": 2,
-  "occurred_at": "2026-03-01T16:00:00.000Z",
-  "account_id": "acc_01h8xq...",
-  "correlation_id": "req_01h8aa...",
-  "payload": {
-    "order_id": "ord_01h8xr...",
-    "external_ref": "your-order-123",
-    "cancelled_reason": "customer_request",
-    "cancelled_at": "2026-03-01T16:00:00.000Z",
-    "refund_eligible": true
-  }
-}
-```
-:::
-
-:::expand order.fulfilled
-**Emitted when**: Order confirmed as delivered by the fulfilment system.
-
-```json
-{
-  "event_id": "evt_01h9ae...",
-  "event_type": "order.fulfilled",
-  "schema_version": 2,
-  "occurred_at": "2026-03-03T10:20:00.000Z",
-  "account_id": "acc_01h8xq...",
-  "correlation_id": "sys_delivery_01...",
-  "payload": {
-    "order_id": "ord_01h8xr...",
-    "external_ref": "your-order-123",
-    "fulfilled_at": "2026-03-03T10:20:00.000Z",
-    "carrier": "DPD",
-    "tracking_number": "1Z999AA1012345678"
-  }
-}
-```
-:::
+> [!expand order.fulfilled]
+> **Emitted when**: Order confirmed as delivered by the fulfilment system.
+>
+> ```json
+> {
+>   "event_id": "evt_01h9ae...",
+>   "event_type": "order.fulfilled",
+>   "schema_version": 2,
+>   "occurred_at": "2026-03-03T10:20:00.000Z",
+>   "account_id": "acc_01h8xq...",
+>   "correlation_id": "sys_delivery_01...",
+>   "payload": {
+>     "order_id": "ord_01h8xr...",
+>     "external_ref": "your-order-123",
+>     "fulfilled_at": "2026-03-03T10:20:00.000Z",
+>     "carrier": "DPD",
+>     "tracking_number": "1Z999AA1012345678"
+>   }
+> }
+> ```
 
 ---
 
