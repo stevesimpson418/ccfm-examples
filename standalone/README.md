@@ -1,32 +1,63 @@
 # Standalone (pip install)
 
-Run ccfm-convert directly via `pip install`. No Docker or CI platform required. This is the simplest way to get started.
+Deploy Markdown to Confluence using the `ccfm` CLI installed via pip.
 
-## Patterns
+## When to use this
 
-| Pattern | Description |
+- Local development and testing
+- Simple CI systems with Python available
+- Any environment with Python 3.12+
+
+## Prerequisites
+
+- Python 3.12+
+- A Confluence Cloud space with API access
+- An [Atlassian API token](https://id.atlassian.com/manage-profile/security/api-tokens)
+
+## Quick start
+
+```bash
+# Copy the shared example docs into place
+cp -r ../_shared/docs ./docs
+
+# Set your Confluence credentials
+export CONFLUENCE_DOMAIN=your-org.atlassian.net
+export CONFLUENCE_EMAIL=you@example.com
+export CONFLUENCE_TOKEN=your-api-token
+
+# Install and run
+make install
+make init      # initialize ccfm management page (idempotent)
+make plan      # preview what would change (safe, read-only)
+make apply     # apply changes to Confluence
+```
+
+## What's inside
+
+| File | Purpose |
 | --- | --- |
-| [single-environment](./single-environment) | One docs tree synced to one Confluence space |
-| [multi-environment](./multi-environment) | One docs tree synced to staging and production spaces |
-| [multi-source](./multi-source) | Two doc trees in one repo, each targeting a different space |
+| `ccfm.yaml` | CCFM configuration — credentials, space, docs root |
+| `Makefile` | Convenience targets wrapping the `ccfm` CLI |
 
-## Common Setup
+## Multi-environment deployments
 
-All standalone examples share the same prerequisites:
+To deploy the same docs to multiple spaces (e.g. staging and production), use
+environment variable interpolation in `ccfm.yaml`:
 
-1. **Python 3.12+** installed
-2. **Install ccfm-convert:**
+```yaml
+space: ${CONFLUENCE_SPACE}
+```
 
-   ```bash
-   pip install ccfm-convert
-   ```
+Then set the variable at runtime:
 
-3. **Set environment variables:**
+```bash
+CONFLUENCE_SPACE=ENG-STAGE ccfm plan
+CONFLUENCE_SPACE=ENG ccfm apply --auto-approve
+```
 
-   ```bash
-   export CONFLUENCE_DOMAIN="acme-corp.atlassian.net"
-   export CONFLUENCE_EMAIL="you@acme-corp.com"
-   export CONFLUENCE_TOKEN="your-api-token"
-   ```
+No separate config files needed — one `ccfm.yaml` handles all environments.
 
-Each example includes a Makefile that wraps the common ccfm commands. See the individual READMEs for pattern-specific details.
+## Further reading
+
+- [ccfm.io](https://ccfm.io) — full documentation
+- [Design philosophy](https://ccfm.io/#design-philosophy) — one config per space

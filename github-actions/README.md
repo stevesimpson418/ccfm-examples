@@ -1,45 +1,63 @@
 # GitHub Actions
 
-Deploy Markdown docs to Confluence Cloud using the [`ccfm-convert` GitHub Action](https://github.com/stevesimpson418/ccfm-convert).
+Deploy Markdown to Confluence using the
+[ccfm-convert GitHub Action](https://github.com/stevesimpson418/ccfm-convert).
+Plan on pull requests, deploy on push to main.
 
-## Overview
+## When to use this
 
-These examples use the `stevesimpson418/ccfm-convert@v1.0.0` GitHub Action to sync documentation from a Git repository to Confluence. Each pattern demonstrates a different deployment topology while following the same init → plan-on-PR, init → apply-on-push workflow.
+- GitHub-hosted repositories
+- Teams already using GitHub Actions
+- Minimal setup — no Python or Docker knowledge needed
 
-## Patterns
+## Prerequisites
 
-| Pattern | Directory | Description |
-| --------- | ----------- | ------------- |
-| Single Environment | [`single-environment/`](single-environment/) | One docs tree, one Confluence space |
-| Multi-Environment | [`multi-environment/`](multi-environment/) | One docs tree, separate staging and production spaces via GitHub Environments |
-| Multi-Source | [`multi-source/`](multi-source/) | Multiple doc trees in one repo, each targeting a different space |
+- A GitHub repository with Actions enabled
+- A Confluence Cloud space with API access
+- An [Atlassian API token](https://id.atlassian.com/manage-profile/security/api-tokens)
 
-## Common Setup
+## Setup
 
-All patterns require the following repository secrets configured in **Settings > Secrets and variables > Actions**:
+1. Copy the shared example docs into place:
 
-| Secret | Description |
-| -------- | ------------- |
-| `CONFLUENCE_DOMAIN` | Your Confluence Cloud domain (e.g., `acme-corp.atlassian.net`) |
-| `CONFLUENCE_EMAIL` | Email address of the Confluence API user |
-| `CONFLUENCE_TOKEN` | Confluence API token ([create one here](https://id.atlassian.com/manage-profile/security/api-tokens)) |
+   ```bash
+   cp -r ../_shared/docs ./docs
+   ```
 
-## GitHub Action Version
+2. Add repository secrets (Settings > Secrets and variables > Actions):
 
-These examples pin to `v1.0.0` of the `ccfm-convert` action. Check the [releases page](https://github.com/stevesimpson418/ccfm-convert/releases) for newer versions.
+   | Secret | Value |
+   | --- | --- |
+   | `CONFLUENCE_DOMAIN` | `your-org.atlassian.net` |
+   | `CONFLUENCE_EMAIL` | `you@example.com` |
+   | `CONFLUENCE_TOKEN` | Your API token |
 
-## Action Inputs
+3. Copy `ccfm.yaml` to your repo root and `.github/workflows/deploy.yml` into
+   your workflows directory.
 
-| Input | Required | Description |
-| ------- | ---------- | ------------- |
-| `domain` | Yes | Confluence Cloud domain |
-| `email` | Yes | Confluence user email |
-| `token` | Yes | Confluence API token |
-| `space` | Yes | Confluence space key |
-| `directory` | No | Path to the docs directory (not needed for `init`) |
-| `version` | Yes | ccfm-convert version to install |
-| `args` | No | CLI subcommand and flags (e.g., `init`, `plan`, `apply --auto-approve`) |
+## What's inside
 
----
+| File | Purpose |
+| --- | --- |
+| `ccfm.yaml` | CCFM configuration — credentials, space, docs root |
+| `.github/workflows/deploy.yml` | Workflow with plan and deploy jobs |
 
-See the [top-level README](../README.md) for other deployment methods (standalone, Docker).
+## Workflow jobs
+
+| Job | Trigger | What it does |
+| --- | --- | --- |
+| `plan` | Pull request touching `docs/**` | Shows what pages would change |
+| `deploy` | Push to `main` touching `docs/**` | Applies changes to Confluence |
+
+Both jobs run `ccfm init` first (idempotent) to ensure the management page exists.
+
+## Multi-environment deployments
+
+To deploy to staging and production spaces, use GitHub Environments with
+environment-specific variables. Set `CONFLUENCE_SPACE` per environment and use
+`space: ${CONFLUENCE_SPACE}` in your `ccfm.yaml`.
+
+## Further reading
+
+- [ccfm.io](https://ccfm.io) — full documentation
+- [Design philosophy](https://ccfm.io/#design-philosophy) — one config per space

@@ -4,12 +4,12 @@ stages:
   - apply
 
 # ---------------------------------------------------------------------------
-# Idempotent setup of ccfm management pages.
+# Idempotent setup of ccfm management page.
 # All plan and apply jobs inherit this via `extends`.
 # ---------------------------------------------------------------------------
 .ccfm-init:
   before_script:
-    - ccfm --config ccfm.yaml init
+    - ccfm init
 
 # ---------------------------------------------------------------------------
 # lint:markdown
@@ -31,8 +31,7 @@ lint:markdown:
 
 # ---------------------------------------------------------------------------
 # plan:confluence
-# Informational plan check on MRs (exits 0 by default).
-# Use --plan-exit-code to exit 2 when changes are pending (useful for gating).
+# Informational plan check on MRs.
 # ---------------------------------------------------------------------------
 plan:confluence:
   stage: plan
@@ -41,7 +40,7 @@ plan:confluence:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm.yaml plan
+    - ccfm plan
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
@@ -58,7 +57,7 @@ apply:confluence:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm.yaml apply --auto-approve
+    - ccfm apply --auto-approve
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
