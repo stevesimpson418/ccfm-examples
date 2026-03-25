@@ -37,7 +37,7 @@ plan:api-docs:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm-api.yaml plan --directory docs
+    - ccfm --config ccfm-api.yaml plan
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
@@ -52,7 +52,7 @@ apply:api-docs:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm-api.yaml apply --directory docs --auto-approve
+    - ccfm --config ccfm-api.yaml apply --auto-approve
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
@@ -70,7 +70,7 @@ plan:wiki-docs:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm-wiki.yaml plan --directory docs-wiki
+    - ccfm --config ccfm-wiki.yaml plan
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
@@ -85,7 +85,7 @@ apply:wiki-docs:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm-wiki.yaml apply --directory docs-wiki --auto-approve
+    - ccfm --config ccfm-wiki.yaml apply --auto-approve
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:

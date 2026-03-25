@@ -74,13 +74,13 @@ docker run ghcr.io/stevesimpson418/ccfm-convert --help
 ccfm --config ccfm.yaml init
 
 # Preview what would change (no modifications made)
-ccfm --config ccfm.yaml plan --directory docs
+ccfm --config ccfm.yaml plan
 
 # Apply changes to Confluence
-ccfm --config ccfm.yaml apply --directory docs --auto-approve
+ccfm --config ccfm.yaml apply --auto-approve
 
 # Force re-apply all pages regardless of state
-ccfm --config ccfm.yaml apply --directory docs --auto-approve --force
+ccfm --config ccfm.yaml apply --auto-approve --force
 ```
 
 See [ccfm.io](https://ccfm.io) for full documentation.

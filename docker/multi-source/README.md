@@ -37,13 +37,13 @@ Two separate doc trees in one repository, each synced to a different Confluence 
 Apply API docs:
 
 ```bash
-docker compose run --rm api-docs --config /ccfm.yaml apply --directory /docs --auto-approve
+docker compose run --rm api-docs --config /ccfm.yaml apply --auto-approve
 ```
 
 Apply wiki docs:
 
 ```bash
-docker compose run --rm wiki-docs --config /ccfm.yaml apply --directory /docs-wiki --auto-approve
+docker compose run --rm wiki-docs --config /ccfm.yaml apply --auto-approve
 ```
 
 Apply all sources at once:
@@ -55,8 +55,8 @@ docker compose up
 Preview changes (dry-run):
 
 ```bash
-docker compose run --rm api-docs --config /ccfm.yaml plan --directory /docs
-docker compose run --rm wiki-docs --config /ccfm.yaml plan --directory /docs-wiki
+docker compose run --rm api-docs --config /ccfm.yaml plan
+docker compose run --rm wiki-docs --config /ccfm.yaml plan
 ```
 
 ## How It Works

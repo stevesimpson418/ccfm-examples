@@ -30,19 +30,19 @@ One docs tree synced to multiple Confluence spaces (e.g. staging and production)
 Apply to staging:
 
 ```bash
-docker compose --env-file .env.staging run --rm ccfm --config /ccfm.yaml apply --directory /docs --auto-approve
+docker compose --env-file .env.staging run --rm ccfm --config /ccfm.yaml apply --auto-approve
 ```
 
 Apply to production:
 
 ```bash
-docker compose --env-file .env.production run --rm ccfm --config /ccfm.yaml apply --directory /docs --auto-approve
+docker compose --env-file .env.production run --rm ccfm --config /ccfm.yaml apply --auto-approve
 ```
 
 Preview changes (dry-run):
 
 ```bash
-docker compose --env-file .env.staging run --rm ccfm --config /ccfm.yaml plan --directory /docs
+docker compose --env-file .env.staging run --rm ccfm --config /ccfm.yaml plan
 ```
 
 ## How It Works

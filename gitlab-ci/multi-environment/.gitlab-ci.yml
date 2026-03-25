@@ -47,7 +47,7 @@ plan:staging:
     name: Staging
     action: prepare
   script:
-    - ccfm --config ccfm.yaml plan --directory docs
+    - ccfm --config ccfm.yaml plan
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
@@ -68,7 +68,7 @@ plan:production:
     name: Production
     action: prepare
   script:
-    - ccfm --config ccfm.yaml plan --directory docs
+    - ccfm --config ccfm.yaml plan
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
@@ -92,7 +92,7 @@ apply:staging:
     name: Staging
     url: https://${CONFLUENCE_DOMAIN}/wiki/spaces/${CONFLUENCE_SPACE}
   script:
-    - ccfm --config ccfm.yaml apply --directory docs --auto-approve
+    - ccfm --config ccfm.yaml apply --auto-approve
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:
@@ -116,7 +116,7 @@ apply:production:
     name: Production
     url: https://${CONFLUENCE_DOMAIN}/wiki/spaces/${CONFLUENCE_SPACE}
   script:
-    - ccfm --config ccfm.yaml apply --directory docs --auto-approve
+    - ccfm --config ccfm.yaml apply --auto-approve
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:

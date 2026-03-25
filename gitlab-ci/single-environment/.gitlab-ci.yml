@@ -41,7 +41,7 @@ plan:confluence:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm.yaml plan --directory docs
+    - ccfm --config ccfm.yaml plan
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
@@ -58,7 +58,7 @@ apply:confluence:
   needs:
     - lint:markdown
   script:
-    - ccfm --config ccfm.yaml apply --directory docs --auto-approve
+    - ccfm --config ccfm.yaml apply --auto-approve
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       changes:

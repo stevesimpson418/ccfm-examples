@@ -17,16 +17,16 @@ init-staging:
 	CONFLUENCE_SPACE=ENG-STAGE ccfm --config ccfm.yaml init
 
 plan-staging:
-	CONFLUENCE_SPACE=ENG-STAGE ccfm --config ccfm.yaml plan --directory docs
+	CONFLUENCE_SPACE=ENG-STAGE ccfm --config ccfm.yaml plan
 
 apply-staging:
-	CONFLUENCE_SPACE=ENG-STAGE ccfm --config ccfm.yaml apply --directory docs --auto-approve
+	CONFLUENCE_SPACE=ENG-STAGE ccfm --config ccfm.yaml apply --auto-approve
 
 init-production:
 	CONFLUENCE_SPACE=ENG ccfm --config ccfm.yaml init
 
 plan-production:
-	CONFLUENCE_SPACE=ENG ccfm --config ccfm.yaml plan --directory docs
+	CONFLUENCE_SPACE=ENG ccfm --config ccfm.yaml plan
 
 apply-production:
-	CONFLUENCE_SPACE=ENG ccfm --config ccfm.yaml apply --directory docs --auto-approve
+	CONFLUENCE_SPACE=ENG ccfm --config ccfm.yaml apply --auto-approve

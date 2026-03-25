@@ -32,13 +32,13 @@ One docs tree synced to one Confluence space. Run ccfm-convert via Docker Compos
 4. Preview what will be synced:
 
    ```bash
-   docker compose run --rm ccfm --config /ccfm.yaml plan --directory /docs
+   docker compose run --rm ccfm --config /ccfm.yaml plan
    ```
 
 5. Apply changes to Confluence:
 
    ```bash
-   docker compose run --rm ccfm --config /ccfm.yaml apply --directory /docs --auto-approve
+   docker compose run --rm ccfm --config /ccfm.yaml apply --auto-approve
    ```
 
 ## How It Works

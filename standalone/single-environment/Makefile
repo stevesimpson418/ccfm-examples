@@ -15,10 +15,10 @@ init:
 	ccfm --config ccfm.yaml init
 
 plan:
-	ccfm --config ccfm.yaml plan --directory docs
+	ccfm --config ccfm.yaml plan
 
 apply:
-	ccfm --config ccfm.yaml apply --directory docs --auto-approve
+	ccfm --config ccfm.yaml apply --auto-approve
 
 apply-force:
-	ccfm --config ccfm.yaml apply --directory docs --auto-approve --force
+	ccfm --config ccfm.yaml apply --auto-approve --force

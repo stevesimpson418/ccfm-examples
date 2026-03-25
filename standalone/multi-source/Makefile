@@ -15,19 +15,19 @@ init-api:
 	ccfm --config ccfm-api.yaml init
 
 plan-api:
-	ccfm --config ccfm-api.yaml plan --directory docs
+	ccfm --config ccfm-api.yaml plan
 
 apply-api:
-	ccfm --config ccfm-api.yaml apply --directory docs --auto-approve
+	ccfm --config ccfm-api.yaml apply --auto-approve
 
 init-wiki:
 	ccfm --config ccfm-wiki.yaml init
 
 plan-wiki:
-	ccfm --config ccfm-wiki.yaml plan --directory docs-wiki
+	ccfm --config ccfm-wiki.yaml plan
 
 apply-wiki:
-	ccfm --config ccfm-wiki.yaml apply --directory docs-wiki --auto-approve
+	ccfm --config ccfm-wiki.yaml apply --auto-approve
 
 plan-all: plan-api plan-wiki
 
