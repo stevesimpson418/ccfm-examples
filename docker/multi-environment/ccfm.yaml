@@ -1,8 +1,0 @@
-version: 1
-
-domain: ${CONFLUENCE_DOMAIN}
-email: ${CONFLUENCE_EMAIL}
-token: ${CONFLUENCE_TOKEN}
-space: ${CONFLUENCE_SPACE}
-docs_root: /docs
-git_repo_url: https://github.com/acme-corp/order-service

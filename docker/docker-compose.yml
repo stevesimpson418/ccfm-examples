@@ -1,0 +1,8 @@
+services:
+  ccfm:
+    image: ghcr.io/stevesimpson418/ccfm-convert:latest
+    env_file: .env
+    volumes:
+      - ./docs:/workspace/docs:ro
+      - ./ccfm.yaml:/workspace/ccfm.yaml:ro
+    working_dir: /workspace

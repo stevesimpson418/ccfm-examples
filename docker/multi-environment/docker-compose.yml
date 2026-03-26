@@ -1,7 +1,0 @@
-services:
-  ccfm:
-    image: ghcr.io/stevesimpson418/ccfm-convert:latest
-    env_file: .env
-    volumes:
-      - ./docs:/docs:ro
-      - ./ccfm.yaml:/ccfm.yaml:ro

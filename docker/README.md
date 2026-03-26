@@ -1,23 +1,64 @@
 # Docker
 
-Run ccfm-convert via Docker. Works anywhere Docker runs -- local machines, CI systems, servers. No Python installation required.
+Deploy Markdown to Confluence using the ccfm-convert Docker image. No Python
+installation needed — works anywhere Docker runs.
 
-**Docker image:** `ghcr.io/stevesimpson418/ccfm-convert:latest`
+## When to use this
 
-## Patterns
+- Environments without Python
+- CI systems with Docker support
+- Consistent, reproducible deployments
 
-| Pattern | Description |
+## Prerequisites
+
+- Docker and Docker Compose
+- A Confluence Cloud space with API access
+- An [Atlassian API token](https://id.atlassian.com/manage-profile/security/api-tokens)
+
+## Quick start
+
+```bash
+# Copy the shared example docs into place
+cp -r ../_shared/docs ./docs
+
+# Create a .env file with your credentials
+cat > .env <<EOF
+CONFLUENCE_DOMAIN=your-org.atlassian.net
+CONFLUENCE_EMAIL=you@example.com
+CONFLUENCE_TOKEN=your-api-token
+EOF
+
+# Initialize, plan, and apply
+docker compose run --rm ccfm ccfm init
+docker compose run --rm ccfm ccfm plan
+docker compose run --rm ccfm ccfm apply --auto-approve
+```
+
+## What's inside
+
+| File | Purpose |
 | --- | --- |
-| [single-environment](./single-environment) | One docs tree synced to one Confluence space |
-| [multi-environment](./multi-environment) | One docs tree synced to staging and production spaces |
-| [multi-source](./multi-source) | Two doc trees in one repo, each targeting a different space |
+| `ccfm.yaml` | CCFM configuration — credentials, space, docs root |
+| `docker-compose.yml` | Service definition with volume mounts |
+| `.env` | Credentials (create this yourself, not committed) |
 
-## Common Setup
+## How it works
 
-All Docker examples share the same prerequisites:
+The Docker Compose file mounts your local `docs/` directory and `ccfm.yaml` into
+`/workspace` inside the container. The `ccfm.yaml` uses `/workspace/docs` as `docs_root`
+to match the container path.
 
-1. **Docker** installed ([get Docker](https://docs.docker.com/get-docker/))
-2. **Confluence API token** ([create one here](https://id.atlassian.com/manage-profile/security/api-tokens))
-3. **Create `.env` from `.env.example`** in the example directory and fill in your credentials
+```yaml
+volumes:
+  - ./docs:/workspace/docs:ro      # your docs (read-only)
+  - ./ccfm.yaml:/workspace/ccfm.yaml:ro  # config (read-only)
+working_dir: /workspace            # ccfm finds ccfm.yaml here
+```
 
-Each example includes a `docker-compose.yml` that wraps the container configuration. See the individual READMEs for pattern-specific details.
+Credentials are injected via the `.env` file and interpolated by `ccfm.yaml` using
+`${CONFLUENCE_DOMAIN}` syntax.
+
+## Further reading
+
+- [ccfm.io](https://ccfm.io) — full documentation
+- [Design philosophy](https://ccfm.io/#design-philosophy) — one config per space

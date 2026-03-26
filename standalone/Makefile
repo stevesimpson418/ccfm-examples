@@ -1,4 +1,4 @@
-# Standalone — Single Environment
+# Standalone — pip install
 #
 # Required environment variables:
 #   CONFLUENCE_DOMAIN  — your Confluence domain (e.g. acme-corp.atlassian.net)
@@ -12,13 +12,13 @@ install:
 	pip install ccfm-convert
 
 init:
-	ccfm --config ccfm.yaml init
+	ccfm init
 
 plan:
-	ccfm --config ccfm.yaml plan --directory docs
+	ccfm plan
 
 apply:
-	ccfm --config ccfm.yaml apply --directory docs --auto-approve
+	ccfm apply --auto-approve
 
 apply-force:
-	ccfm --config ccfm.yaml apply --directory docs --auto-approve --force
+	ccfm apply --auto-approve --force
